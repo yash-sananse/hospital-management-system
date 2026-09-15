@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | City Hospital</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<!-- Patient Header -->
+<div th:replace="Patient-layout :: header"></div>
+
+<!-- Patient Sidebar -->
+<div th:replace="Patient-layout :: sidebar"></div>
+
+
+<div class="main-wrapper">
+
+    <main class="workspace">
+
+        <!-- Page Title -->
+        <div class="page-title-section">
+
+            <h1>My Profile</h1>
+
+            <p class="page-subtitle">
+                View your personal account information
+            </p>
+
+        </div>
+
+
+        <!-- Profile -->
+        <div class="content-board">
+
+            <!-- Profile Header -->
+            <div class="profile-header-card">
+
+                <!-- Initials -->
+                <div class="profile-avatar"
+                     th:text="${initials}">
+                    YS
+                </div>
+
+
+                <div class="profile-details">
+
+                    <h2 th:text="${loggedInUser.name}">
+                        User Name
+                    </h2>
+
+                    <p>
+                        City Hospital Patient
+                    </p>
+
+
+                    <!-- Active -->
+                    <span class="status-badge active"
+                          th:if="${loggedInUser.active}">
+                            Active
+                        </span>
+
+
+                    <!-- Inactive -->
+                    <span class="status-badge inactive"
+                          th:unless="${loggedInUser.active}">
+                            Inactive
+                        </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Profile Information -->
+            <div class="profile-grid">
+
+
+                <!-- Full Name -->
+                <div class="profile-item">
+
+                    <label>Full Name</label>
+
+                    <span th:text="${loggedInUser.name}">
+                            User Name
+                        </span>
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="profile-item">
+
+                    <label>Email Address</label>
+
+                    <span th:text="${loggedInUser.email}">
+                            user@example.com
+                        </span>
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="profile-item">
+
+                    <label>Phone Number</label>
+
+                    <span th:text="${loggedInUser.phoneNumber}">
+                            9876543210
+                        </span>
+
+                </div>
+
+
+                <!-- Role -->
+                <div class="profile-item">
+
+                    <label>Account Role</label>
+
+                    <span class="role-badge"
+                          th:text="${loggedInUser.role}">
+                            PATIENT
+                        </span>
+
+                </div>
+
+
+                <!-- Account Status -->
+                <div class="profile-item">
+
+                    <label>Account Status</label>
+
+                    <span th:if="${loggedInUser.active}"
+                          class="u-color-166534">
+                            Active
+                        </span>
+
+                    <span th:unless="${loggedInUser.active}"
+                          class="u-color-991b1b">
+                            Inactive
+                        </span>
+
+                </div>
+
+
+                <!-- Created Date -->
+                <div class="profile-item">
+
+                    <label>Account Created</label>
+
+                    <span th:text="${#temporals.format(
+                            loggedInUser.createdAt,
+                            'dd MMM yyyy'
+                        )}">
+                            11 Sep 2026
+                        </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

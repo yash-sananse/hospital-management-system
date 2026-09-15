@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Prescription</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+
+</head>
+
+<body class="page-prescription-print">
+
+<div class="print-container">
+
+    <div class="no-print u-mb-20px"
+        >
+
+        <button class="submit-btn"
+                onclick="window.print()">
+
+            Print / Save PDF
+
+        </button>
+
+    </div>
+
+    <div class="u-ta-center u-mb-30px">
+                
+                
+
+        <h1>City Hospital</h1>
+
+        <p>
+            Doctor:
+            <span th:text="${prescription.Doctor.fullName}">
+            </span>
+        </p>
+
+    </div>
+
+    <hr>
+
+    <br>
+
+    <h3>Patient Information</h3>
+
+    <p>
+        <strong>Name:</strong>
+
+        <span th:text="${appointment.patientName}">
+        </span>
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+
+        <span th:text="${appointment.phoneNumber}">
+        </span>
+    </p>
+
+    <p>
+        <strong>Date:</strong>
+
+        <span th:text="${prescription.createdAt}">
+        </span>
+    </p>
+    <p>
+        <strong>follow-up Date:</strong>
+
+        <span th:text="${prescription.followUpDate}">
+        </span>
+    </p>
+
+    <br>
+
+    <h3>Diagnosis</h3>
+
+    <p th:text="${prescription.diagnosis ?: 'N/A'}"></p>
+
+    <br>
+
+    <h3>Medicines</h3>
+
+    <table class="medical-table">
+
+        <thead>
+        <tr>
+            <th>Medicine</th>
+            <th>Dosage</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="medicine : ${prescription.medicines}">
+
+            <td th:text="${medicine.medicineName}"></td>
+
+            <td th:text="${medicine.dosage}"></td>
+
+            <td th:text="${medicine.frequency}"></td>
+
+            <td th:text="${medicine.duration}"></td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <h3>Advice</h3>
+
+    <p th:text="${prescription.advice ?: 'N/A'}"></p>
+
+    <br><br><br><br>
+
+    <div class="u-ta-right">
+
+        <strong>
+            Doctor Signature
+        </strong>
+
+        <br><br>
+
+        ______________________
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>➕📅 Add Appointment</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    
+    <!-- 1. Include Flatpickr CSS for Modern Styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    
+</head>
+
+<body class="page-add-appointment">
+
+<div th:replace="layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <section class="content-board">
+
+            <div class="board-header">
+                <div class="board-title">📅 Add Appointment</div>
+            </div>
+
+            <!-- SUCCESS MESSAGE -->
+            <p th:if="${success}" th:text="${success}" class="success-message"></p>
+
+            <form th:action="@{/admin/save-appointment}" th:object="${appointment}" method="post">
+
+                <input type="hidden" th:field="*{doctor.id}" />
+
+                <div class="form-group">
+                    <label><span class="emoji-label">👤</span> Patient Name</label>
+                    <input type="text" th:field="*{patientName}" class="form-input"
+                           placeholder="Enter patient name" required />
+                </div>
+
+                <div class="form-group">
+                    <label><span class="emoji-label">💬</span> Reason</label>
+                    <input type="text" th:field="*{reason}" class="form-input"
+                           placeholder="Enter reason for visit" required />
+                </div>
+                
+					                <!-- Add this block inside your form before the date-time-row -->
+					<div class="form-group">
+					    <label><span class="emoji-label">📞</span> Phone Number</label>
+					    <input type="text" th:field="*{phoneNumber}" class="form-input"
+					           placeholder="Enter patient phone number" required />
+					</div>
+
+                <!-- Side by side date & time -->
+                <div class="date-time-row">
+                    <div class="form-group">
+                        <label><span class="emoji-label">📅</span> Appointment Date</label>
+                        <!-- Notice we changed type to "text" so the native calendar doesn't interfere -->
+                        <input type="text" id="appointmentDate" name="appointmentDate" 
+                               class="form-input" placeholder="Select Date..." required />
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="emoji-label">⏰</span> Appointment Time</label>
+                        <!-- Notice we changed type to "text" so the native clock doesn't interfere -->
+                        <input type="text" id="appointmentTime" name="appointmentTime" 
+                               class="form-input" placeholder="Select Time..." required />
+                    </div>
+                </div>
+
+                <div class="u-mt-10px">
+                    <button type="submit" class="ui-btn">💾 Save Appointment</button>
+                    <a th:href="@{/admin/appointments}" class="ui-btn cancel-btn">↩️ Cancel</a>
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- 2. Include Flatpickr JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- 3. Initialize the Pickers with Custom Settings -->
+<script>
+    // Initialize custom Calendar
+    flatpickr("#appointmentDate", {
+        dateFormat: "Y-m-d", // Matches standard database format
+        minDate: "today",    // Prevents selecting past dates
+        animate: true
+    });
+
+    // Initialize custom Time Picker
+    flatpickr("#appointmentTime", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",   // 24-hour style format (use "h:i K" for 12-hour AM/PM)
+        time_24hr: true
+    });
+</script>
+
+</body>
+</html>

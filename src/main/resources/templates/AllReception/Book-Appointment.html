@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Appointment</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="layout-reception :: header"></div>
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="layout-reception :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Add Appointment</h1>
+        </div>
+
+        <div class="content-board">
+
+            <!-- Success Message -->
+            <div id="successMessage"
+                 th:if="${successMessage}"
+                 class="u-bg-d4edda u-color-155724 u-p-10px u-mb-15px u-br-5px u-border-1px-solid-c3e6cb">
+
+                <span th:text="${successMessage}"></span>
+
+            </div>
+
+            <div class="board-header">
+                <div class="board-title">
+                    Appointment Details
+                </div>
+            </div>
+
+            <div class="form-max-container">
+
+                <form th:action="@{/reception/save-appointment}"
+                      th:object="${appointment}"
+                      method="post">
+
+                    <!-- Patient Name -->
+                    <div class="input-block">
+                        <label>Patient Name</label>
+                        <input type="text"
+                               class="field-element"
+                               th:field="*{patientName}"
+                               required>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="input-block">
+                        <label>Phone Number</label>
+                        <input type="text"
+                               class="field-element"
+                               th:field="*{phoneNumber}"
+                               required>
+                    </div>
+
+                    <!-- Doctor -->
+                    <div class="input-block">
+                        <label>Select Doctor</label>
+
+                        <select class="field-element"
+                                th:field="*{doctor.id}"
+                                required>
+
+                            <option value="">
+                                Select Doctor
+                            </option>
+
+                            <option th:each="doctor : ${doctors}"
+                                    th:value="${doctor.id}"
+                                    th:text="${doctor.fullName}">
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <!-- Appointment Date -->
+                    <div class="input-block">
+                        <label>Appointment Date</label>
+
+                        <input type="date"
+                               class="field-element"
+                               th:field="*{appointmentDate}"
+                               required>
+                    </div>
+
+                    <!-- Appointment Time -->
+                    <div class="input-block">
+                        <label>Appointment Time</label>
+
+                        <input type="time"
+                               class="field-element"
+                               th:field="*{appointmentTime}"
+                               required>
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="input-block">
+                        <label>Remarks</label>
+
+                        <textarea class="field-element"
+                                  rows="4"
+                                  th:field="*{reason}">
+                        </textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="u-d-flex u-gap-10px">
+
+                        <button type="submit"
+                                class="ui-btn ui-btn-red">
+                            Save Appointment
+                        </button>
+
+                        <a th:href="@{/reception/appointments}"
+                           class="ui-btn ui-btn-outline">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- Auto-hide Success Message -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const successMessage = document.getElementById("successMessage");
+
+    if (successMessage) {
+        setTimeout(function () {
+            successMessage.classList.add("u-d-none");
+        }, 3000); // Hide after 3 seconds
+    }
+
+});
+</script>
+
+</body>
+</html>

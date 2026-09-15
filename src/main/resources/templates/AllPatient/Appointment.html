@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>My Appointments</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="Patient-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+    <div class="workspace">
+
+        <!-- Page Header -->
+
+        <div class="page-title-section">
+
+            <h1>My Appointments</h1>
+
+            <p class="page-subtitle">
+                Manage your upcoming appointments and view your previous consultation history.
+            </p>
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="appointment-stats">
+
+            <div class="appointment-stat-card">
+
+                <div class="stat-number"
+                     th:text="${#lists.size(upcomingAppointments)}">
+                </div>
+
+                <div class="stat-text">
+                    Upcoming
+                </div>
+
+            </div>
+
+            <div class="appointment-stat-card">
+
+                <div class="stat-number"
+                     th:text="${#lists.size(appointmentHistory)}">
+                </div>
+
+                <div class="stat-text">
+                    Completed
+                </div>
+
+            </div>
+
+            <div class="appointment-stat-card">
+
+                <div class="stat-number"
+                     th:text="${cancelledCount}">
+                </div>
+
+                <div class="stat-text">
+                    Cancelled
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Upcoming -->
+
+        <div class="appointment-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Upcoming Appointments
+                </h2>
+
+            </div>
+
+            <div th:if="${#lists.isEmpty(upcomingAppointments)}"
+                 class="empty-state">
+
+                <div class="empty-icon">📅</div>
+
+                <h3>No Upcoming Appointment</h3>
+
+                <p>
+                    You don't have any upcoming appointments.
+                </p>
+
+            </div>
+
+            <div class="appointment-list"
+                 th:unless="${#lists.isEmpty(upcomingAppointments)}">
+
+                <div class="appointment-card-large"
+                     th:each="appointment : ${upcomingAppointments}">
+
+                    <div class="appointment-top">
+
+                        <div class="doctor-avatar"
+                             th:text="${#strings.substring(appointment.doctor.fullName,0,1)}">
+                        </div>
+
+                        <div class="doctor-details">
+
+                            <h3 th:text="${appointment.doctor.fullName}">
+                            </h3>
+
+                            <span th:text="${appointment.doctor.specialty}">
+                            </span>
+
+                        </div>
+
+                        <span class="status-badge"
+                              th:text="${appointment.status}">
+                        </span>
+
+                    </div>
+
+                    <div class="appointment-middle">
+
+                        <div class="appointment-item">
+
+                            <label>Date</label>
+
+                            <span th:text="${appointment.appointmentDate}">
+                            </span>
+
+                        </div>
+
+                        <div class="appointment-item">
+
+                            <label>Time</label>
+
+                            <span th:text="${appointment.appointmentTime}">
+                            </span>
+
+                        </div>
+
+                        <div class="appointment-item">
+
+                            <label>Reason</label>
+
+                            <span th:text="${appointment.reason}">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="appointment-bottom">
+
+                        <a class="ui-btn ui-btn-red"
+                           th:href="@{/user/appointment/{id}(id=${appointment.id})}">
+                            View Details
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- History -->
+
+        <div class="appointment-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Appointment History
+                </h2>
+
+            </div>
+
+            <div th:if="${#lists.isEmpty(appointmentHistory)}"
+                 class="empty-state">
+
+                <div class="empty-icon">🩺</div>
+
+                <h3>No Appointment History</h3>
+
+            </div>
+
+            <div class="history-list"
+                 th:unless="${#lists.isEmpty(appointmentHistory)}">
+
+                <div class="history-card"
+                     th:each="appointment : ${appointmentHistory}">
+
+                    <div class="history-left">
+
+                        <h3 th:text="${appointment.doctor.fullName}">
+                        </h3>
+
+                        <p>
+
+                            <strong>Date :</strong>
+
+                            <span th:text="${appointment.appointmentDate}">
+                            </span>
+
+                        </p>
+
+                        <p>
+
+                            <strong>Reason :</strong>
+
+                            <span th:text="${appointment.reason}">
+                            </span>
+
+                        </p>
+
+                    </div>
+
+                    <div class="history-right">
+
+                        <span class="status-badge"
+                              th:text="${appointment.status}">
+                        </span>
+
+                        <a class="details-link"
+                           th:href="@{/user/appointment/{id}(id=${appointment.id})}">
+                            View Details →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

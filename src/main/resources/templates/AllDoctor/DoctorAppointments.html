@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- Header -->
+    <div th:replace="doctor-layout :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="doctor-layout :: sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="workspace">
+
+            <div class="page-title-section">
+                <h1>Appointments</h1>
+            </div>
+
+            <div class="content-board">
+
+                <div class="board-header">
+
+                    <h2 class="board-title">
+                        My Appointments
+                    </h2>
+
+                    <form th:action="@{/doctor/appointments/search}"
+                          method="get"
+                          class="search-inline-box">
+
+                        <input type="text"
+                               name="keyword"
+                               placeholder="Search Patient"
+                               class="field-element">
+
+                        <button type="submit"
+                                class="ui-btn ui-btn-red">
+                            Search
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="medical-table">
+
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="appointment : ${appointments}">
+
+                            <td th:text="${appointment.id}"></td>
+
+                            <td th:text="${appointment.patientName}">
+                                Rahul Sharma
+                            </td>
+
+                            <td th:text="${appointment.appointmentDate}">
+                                2026-06-08
+                            </td>
+
+                            <td th:text="${appointment.appointmentTime}">
+                                10:30 AM
+                            </td>
+
+                            <td th:text="${appointment.reason}">
+                                Fever
+                            </td>
+
+                            <td>
+                                <span class="role-badge"
+                                      th:text="${appointment.status}">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <a th:href="@{'/doctor/appointment/view/' + ${appointment.id}}"
+                                   class="ui-btn-table-edit">
+                                    View
+                                </a>
+
+                                <a th:href="@{'/doctor/appointment/complete/' + ${appointment.id}}"
+                                   class="ui-btn-table-edit">
+                                    Complete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(appointments)}">
+                            <td colspan="7"
+                                class="u-ta-center">
+                                No Appointments Found
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="pagination-container" th:if="${appointmentPage != null and appointmentPage.totalPages > 1}">
+                <a class="pagination-link" th:if="${!appointmentPage.first and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/doctor/appointments(page=${appointmentPage.number - 1})}">Previous</a>
+                <a class="pagination-link" th:if="${!appointmentPage.first and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/doctor/appointments/search(page=${appointmentPage.number - 1},keyword=${keyword})}">Previous</a>
+                <span class="pagination-link disabled" th:if="${appointmentPage.first}">Previous</span>
+                <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword == null or #strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/doctor/appointments(page=${p})}" th:text="${p + 1}">1</a>
+                <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword != null and !#strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/doctor/appointments/search(page=${p},keyword=${keyword})}" th:text="${p + 1}">1</a>
+                <a class="pagination-link" th:if="${!appointmentPage.last and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/doctor/appointments(page=${appointmentPage.number + 1})}">Next</a>
+                <a class="pagination-link" th:if="${!appointmentPage.last and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/doctor/appointments/search(page=${appointmentPage.number + 1},keyword=${keyword})}">Next</a>
+                <span class="pagination-link disabled" th:if="${appointmentPage.last}">Next</span>
+            </div>
+
+        </main>
+
+
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Bill - Reception</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="layout-reception :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="layout-reception :: sidebar"></div>
+
+    <main class="workspace">
+
+        <!-- TITLE -->
+
+        <div class="page-title-section">
+
+            <h1>Edit Bill</h1>
+
+            <p class="page-subtitle">
+                Update patient bill details.
+            </p>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Bill Charges
+                </h2>
+
+            </div>
+
+
+            <form th:action="@{/reception/bill/edit/{id}(id=${bill.id})}"
+                  th:object="${bill}"
+                  method="post">
+
+
+                <!-- Consultation Fee -->
+
+                <div class="form-group">
+
+                    <label>
+                        Consultation Fee
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{consultationFee}">
+
+                </div>
+
+
+                <!-- Medicine Charge -->
+
+                <div class="form-group">
+
+                    <label>
+                        Medicine Charges
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{medicineCharge}">
+
+                </div>
+
+
+                <!-- Lab Charge -->
+
+                <div class="form-group">
+
+                    <label>
+                        Laboratory Charges
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{labCharge}">
+
+                </div>
+
+
+                <!-- Room Charge -->
+
+                <div class="form-group">
+
+                    <label>
+                        Room Charges
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{roomCharge}">
+
+                </div>
+
+
+                <!-- Other Charge -->
+
+                <div class="form-group">
+
+                    <label>
+                        Other Charges
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{otherCharge}">
+
+                </div>
+
+
+                <!-- Discount -->
+
+                <div class="form-group">
+
+                    <label>
+                        Discount
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{discount}">
+
+                </div>
+
+
+                <!-- Paid Amount -->
+
+                <div class="form-group">
+
+                    <label>
+                        Amount Paid
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           th:field="*{paidAmount}">
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="bill-form-actions">
+
+                    <a th:href="@{/reception/bill/{id}(id=${bill.id})}"
+                       class="ui-btn ui-btn-outline">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="ui-btn">
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

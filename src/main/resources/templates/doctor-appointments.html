@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+
+    <title>
+        Doctor Appointments
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css" />
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div th:replace="layout :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="layout :: sidebar"></div>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+
+            <!-- Page Title -->
+            <section class="page-title-section">
+
+                <h1>
+                    Doctor Appointments
+                </h1>
+
+            </section>
+
+            <!-- Doctor Info -->
+            <section class="content-board">
+
+                <div class="board-header">
+
+                    <div class="board-title">
+
+                        <span th:text="${doctor.fullName}">
+                            Dr Amit
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="u-p-20px">
+
+                    <p>
+                        <strong>Specialty:</strong>
+
+                        <span th:text="${doctor.specialty}">
+                            Cardiologist
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Clinic:</strong>
+
+                        <span th:text="${doctor.clinic}">
+                            Main Hospital
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+
+                        <span th:text="${doctor.phoneNumber}">
+                            9876543210
+                        </span>
+                    </p>
+
+
+                    <p>
+                        <strong>Consultation Fee:</strong>
+                        <span>
+                            ₹ <span th:text="${doctor.consultationFee}"></span>
+                        </span>
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- Appointments Table -->
+            <section class="content-board">
+
+               <div class="board-header">
+				
+				    <div class="board-title">
+				
+				        All Appointments
+				
+				    </div>
+				
+				    <a th:href="@{/admin/doctor/{id}/add-appointment(id=${doctor.id})}"
+				       class="ui-btn">
+				
+				        Add Appointment
+				
+				    </a>
+				
+				</div>
+
+                <div class="table-wrapper">
+
+                    <table class="medical-table">
+
+                        <thead>
+
+                            	<tr>
+
+										    <th>ID</th>
+										
+										    <th>Patient</th>
+										
+										    <th>Reason</th>
+										
+										    <th>Date</th>
+										
+										    <th>Time</th>
+
+								</tr>
+                        </thead>
+
+                        <tbody>
+
+                            <!-- Empty -->
+                            <tr th:if="${#lists.isEmpty(appointments)}">
+
+                                <td colspan="4"
+                                    class="u-ta-center">
+
+                                    No Appointments Found
+
+                                </td>
+
+                            </tr>
+
+                            <!-- Appointment Rows -->
+                           <tr th:each="appt : ${appointments}">
+
+						    <td th:text="${appt.id}">
+						        1
+						    </td>
+						
+						    <td th:text="${appt.patientName}">
+						        Rahul
+						    </td>
+						
+						    <td th:text="${appt.reason}">
+						        Fever
+						    </td>
+						
+						    <td th:text="${appt.appointmentDate !=null ?appt.appointmentDate : 'N/A'}">
+						        2026-05-23
+						    </td>
+						
+						    <td th:text="${appt.appointmentTime !=null ?appt.appointmentTime : 'N/A'}">
+						        05:30
+						    </td>
+						
+						</tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

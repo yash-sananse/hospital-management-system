@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Appointments</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    
+
+</head>
+
+<body class="page-appointments">
+
+<!-- Header -->
+<div th:replace="layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="layout :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <!-- Header -->
+        <div class="dashboard-header-container">
+
+            <section class="page-title-section">
+                <h1>All Appointments</h1>
+            </section>
+
+            <section class="top-dashboard-grid">
+
+                <!-- Today's -->
+                <a th:href="@{/admin/today-appointments}"
+                   class="u-td-none u-color-inherit">
+
+                    <button type="button" class="stat-counter-btn">
+
+                        <span class="stat-icon">🩺</span>
+
+                        <span class="stat-text-group">
+                                <span class="stat-label">Today's</span>
+                                <span class="stat-value">Appointments</span>
+                            </span>
+
+                    </button>
+
+                </a>
+
+                <!-- Upcoming -->
+                <a th:href="@{/admin/upcoming-appointments}"
+                   class="u-td-none u-color-inherit">
+
+                    <button type="button" class="stat-counter-btn">
+
+                        <span class="stat-icon">📅</span>
+
+                        <span class="stat-text-group">
+                                <span class="stat-label">Upcoming</span>
+                                <span class="stat-value">Appointments</span>
+                            </span>
+
+                    </button>
+
+                </a>
+
+            </section>
+
+        </div>
+
+        <!-- TABLE -->
+        <section class="content-board">
+
+            <div class="board-header">
+                <div class="board-title">Appointment List</div>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="medical-table">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Phone</th>
+                        <th>Reason</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Delete</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <!-- EMPTY -->
+                    <tr th:if="${#lists.isEmpty(appointments)}">
+
+                        <td colspan="8"
+                            class="u-ta-center">
+
+                            No Appointments Found
+
+                        </td>
+
+                    </tr>
+
+                    <!-- LOOP -->
+                    <tr th:each="appt : ${appointments}">
+
+                        <td th:text="${appt.id}"></td>
+
+                        <td th:text="${appt.patientName}"></td>
+
+                        <td th:text="${appt.phoneNumber != null ? appt.phoneNumber : 'N/A'}"></td>
+
+                        <td th:text="${appt.reason}"></td>
+
+                        <td th:text="${appt.appointmentDate}"></td>
+
+                        <td th:text="${appt.appointmentTime}"></td>
+
+                        <td th:text="${appt.doctor != null ? appt.doctor.fullName : 'No Doctor'}"></td>
+
+                        <!-- DELETE -->
+                        <td class="u-ta-center">
+
+                            <a th:href="@{/admin/appointment/delete/{id}(id=${appt.id})}"
+                               onclick="return confirm('Delete this appointment?')"
+                               class="delete-btn">
+
+                                🗑️
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        <div class="pagination-container" th:if="${appointmentPage != null and appointmentPage.totalPages > 1}">
+            <a class="pagination-link" th:if="${!appointmentPage.first}" th:href="@{/admin/appointments(page=${appointmentPage.number - 1})}">Previous</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.first}">Previous</span>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}"
+               th:classappend="${p == appointmentPage.number} ? ' active' : ''"
+               th:href="@{/admin/appointments(page=${p})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:if="${!appointmentPage.last}" th:href="@{/admin/appointments(page=${appointmentPage.number + 1})}">Next</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.last}">Next</span>
+        </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

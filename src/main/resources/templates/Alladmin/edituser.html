@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Edit User - Admin Console</title>
+	<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="layout :: header"></div>
+
+<div class="main-wrapper">
+
+	<!-- Sidebar Fragment -->
+	<div th:replace="layout :: sidebar"></div>
+
+	<!-- Workspace -->
+	<main class="workspace centered-page">
+		<section class="centered-card content-board form-max-container">
+			<div class="board-header">
+				<div class="board-title">Edit User</div>
+				<div>
+					<a th:href="@{/admin/users}" class="ui-btn ui-btn-outline">
+						← Back to Users
+					</a>
+				</div>
+			</div>
+
+			<!-- Edit Form -->
+			<form th:action="@{/admin/updateuser}" method="post">
+
+				<!-- Hidden ID -->
+				<input type="hidden" name="id" th:value="${user.id}" />
+
+				<div class="input-block">
+					<label>Full Name</label>
+					<input class="field-element"
+					       type="text"
+					       name="name"
+					       th:value="${user.name}"
+					       required />
+				</div>
+
+				<div class="input-block">
+					<label>Email Address</label>
+					<input class="field-element"
+					       type="email"
+					       name="email"
+					       th:value="${user.email}"
+					       required />
+				</div>
+
+				<div class="input-block">
+					<label>Assigned Role</label>
+					<select name="role" class="field-element">
+						<option value="USER"
+						        th:selected="${user.role.name() == 'USER'}">
+							PATIENT
+						</option>
+
+						<option value="ADMIN"
+						        th:selected="${user.role.name() == 'ADMIN'}">
+							ADMIN
+						</option>
+
+						<option value="RECEPTIONIST"
+						        th:selected="${user.role.name() == 'RECEPTIONIST'}">
+							RECEPTION
+						</option>
+
+						<option value="DOCTOR"
+						        th:selected="${user.role.name() == 'DOCTOR'}">
+							DOCTOR
+						</option>
+
+						<option value="NURSE"
+						        th:selected="${user.role.name() == 'NURSE'}">
+							NURSE
+						</option>
+					</select>
+				</div>
+
+				<div class="input-block">
+					<label>Phone Number</label>
+					<input class="field-element"
+					       type="text"
+					       name="phoneNumber"
+					       th:value="${user.phoneNumber}" />
+				</div>
+
+				<button type="submit"
+				        class="ui-btn ui-btn-red u-w-100pct u-mt-12px"
+				       >
+					Update Details
+				</button>
+
+			</form>
+		</section>
+	</main>
+</div>
+
+</body>
+</html>

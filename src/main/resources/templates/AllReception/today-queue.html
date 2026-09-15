@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Queue</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div th:replace="layout-reception :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="layout-reception :: sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="workspace">
+
+            <section class="page-title-section">
+                <h1>Today's Queue</h1>
+            </section>
+
+            <section class="content-board">
+
+                <div class="board-header">
+
+                    <div class="board-title">
+                        Patient Flow Tracking
+                    </div>
+
+                    <a th:href="@{/reception}"
+                       class="ui-btn ui-btn-outline">
+
+                        Back To Dashboard
+
+                    </a>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="medical-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Token</th>
+                                <th>Patient</th>
+                                <th>Phone</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Current Stage</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:if="${#lists.isEmpty(appointments)}">
+
+                                <td colspan="8">
+
+                                    No Patients In Queue
+
+                                </td>
+
+                            </tr>
+
+                            <tr th:each="appt : ${appointments}">
+
+                                <td th:text="${appt.id}"></td>
+
+                                <td th:text="${appt.patientName}"></td>
+
+                                <td th:text="${appt.phoneNumber}"></td>
+
+                                <td th:text="${appt.doctor.fullName}"></td>
+
+                                <td th:text="${appt.appointmentDate}"></td>
+
+                                <td th:text="${appt.appointmentTime}"></td>
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span class="role-badge"
+                                          th:text="${appt.status}">
+                                    </span>
+
+                                </td>
+
+                                <!-- Workflow Tracking -->
+
+                                <td>
+
+                                    <!-- BOOKED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).BOOKED}">
+
+                                        Waiting For Check-In
+
+                                    </span>
+
+                                    <!-- CHECKED_IN -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CHECKED_IN}">
+
+                                        Waiting For Doctor
+
+                                    </span>
+
+                                    <!-- CONSULTED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CONSULTED}">
+
+                                        Doctor Consultation Completed
+
+                                    </span>
+
+                                    <!-- ADMITTED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).ADMITTED}">
+
+                                        Admitted To Hospital
+
+                                    </span>
+
+                                    <!-- DISCHARGED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).DISCHARGED}">
+
+                                        Discharged
+
+                                    </span>
+
+                                    <!-- COMPLETED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).COMPLETED}">
+
+                                        Visit Completed
+
+                                    </span>
+
+                                    <!-- CANCELLED -->
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CANCELLED}">
+
+                                        Appointment Cancelled
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

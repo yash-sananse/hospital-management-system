@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Details</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Patient Header -->
+<div th:replace="Patient-layout :: header"></div>
+
+
+<div class="main-wrapper">
+
+    <!-- Patient Sidebar -->
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <!-- Page Title -->
+        <div class="page-title-section">
+            <h1>Appointment Details</h1>
+            <p class="page-subtitle">
+                View complete information about your appointment
+            </p>
+        </div>
+
+
+        <!-- Appointment Board -->
+        <div class="appointment-board">
+
+            <div class="appointment-list">
+
+                <div class="appointment-card-large">
+
+                    <!-- Doctor Section -->
+                    <div class="appointment-top">
+
+                        <div class="doctor-avatar"
+                             th:text="${#strings.substring(appointment.doctor.fullName, 0, 1)}">
+                            D
+                        </div>
+
+                        <div class="doctor-details">
+
+                            <h3 th:text="${appointment.doctor.fullName}">
+                                Doctor Name
+                            </h3>
+
+                            <span th:text="${appointment.doctor.specialty}">
+                                    Specialty
+                                </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Appointment Information -->
+                    <div class="appointment-middle">
+
+                        <div class="appointment-item">
+
+                            <label>Appointment ID</label>
+
+                            <span th:text="${appointment.id}">
+                                    59
+                                </span>
+
+                        </div>
+
+
+                        <div class="appointment-item">
+
+                            <label>Date</label>
+
+                            <span th:text="${appointment.appointmentDate}">
+                                    2026-09-04
+                                </span>
+
+                        </div>
+
+
+                        <div class="appointment-item">
+
+                            <label>Time</label>
+
+                            <span th:text="${appointment.appointmentTime}">
+                                    10:00
+                                </span>
+
+                        </div>
+
+
+                        <div class="appointment-item">
+
+                            <label>Patient Name</label>
+
+                            <span th:text="${appointment.patientName}">
+                                    Patient Name
+                                </span>
+
+                        </div>
+
+
+                        <div class="appointment-item">
+
+                            <label>Phone Number</label>
+
+                            <span th:text="${appointment.phoneNumber}">
+                                    9876543210
+                                </span>
+
+                        </div>
+
+
+                        <div class="appointment-item">
+
+                            <label>Status</label>
+
+                            <span class="status-badge"
+                                  th:text="${appointment.status}">
+                                    BOOKED
+                                </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Reason -->
+                    <div class="appointment-item">
+
+                        <label>Reason for Appointment</label>
+
+                        <span th:text="${appointment.reason}">
+                                General consultation
+                            </span>
+
+                    </div>
+
+
+                    <!-- Bottom Button -->
+                    <div class="appointment-bottom">
+
+                        <a href="/user/appointments"
+                           class="ui-btn ui-btn-outline">
+                            Back to Appointments
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+

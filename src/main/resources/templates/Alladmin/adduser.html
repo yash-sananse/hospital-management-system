@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New User - Admin Console</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Top Header (reuses your Crimson Medical header styles) -->
+  <header class="top-header">
+    <div class="header-brand">
+      <div class="brand-logo" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hospital logo">
+          <rect width="24" height="24" rx="4" fill="var(--primary-red)"/>
+          <path d="M12 6v12M6 12h12" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>Hospital Admin Console</div>
+    </div>
+
+    <div class="header-user-actions">
+      <div class="user-profile">
+        <div class="avatar-circle" th:text="${initials}">A</div>
+        <div class="u-ta-right">
+          <div th:text="${name}" class="u-fw-600">Admin</div>
+          <div class="u-fs-12px u-color-text-muted">Administrator</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <main class="workspace u-pt-36px">
+      <section class="page-title-section">
+        <h1>Add New User</h1>
+      </section>
+
+      <section class="content-board form-max-container u-mw-640px u-m-0-auto">
+        <div class="board-header">
+          <div class="board-title">Create user profile</div>
+          <div>
+            <a href="/admin" class="ui-btn ui-btn-outline">← Back to Dashboard</a>
+          </div>
+        </div>
+
+        <form action="/admin/saveuser" method="post" class="u-mt-18px">
+          <div class="input-block">
+            <label>Full Name</label>
+            <input class="field-element" type="text" name="name" placeholder="Enter full name" required />
+          </div>
+
+          <div class="input-block">
+            <label>Email Address</label>
+            <input class="field-element" type="email" name="email" placeholder="Enter email address" required />
+          </div>
+
+          <div class="input-block">
+            <label>Password</label>
+            <input class="field-element" type="password" name="password" placeholder="Assign password" required />
+          </div>
+
+          <div class="input-block">
+            <label>Phone Number</label>
+            <input class="field-element" type="text" name="phoneNumber" placeholder="Enter phone number" required />
+          </div>
+
+          <div class="input-block">
+
+    <label>System Role Mapping</label>
+
+    <select name="role"
+            class="field-element u-appearance-none"
+           >
+
+        <option value="ADMIN">ADMIN</option>
+
+        <option value="DOCTOR">DOCTOR</option>
+
+        <option value="RECEPTIONIST">
+            RECEPTIONIST
+        </option>
+
+        <option value="NURSE">
+            NURSE
+        </option>
+
+        <option value="PATIENT">
+            PATIENT
+        </option>
+
+    </select>
+
+</div>
+
+          <button type="submit" class="ui-btn ui-btn-red u-w-100pct u-mt-12px">Save User</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

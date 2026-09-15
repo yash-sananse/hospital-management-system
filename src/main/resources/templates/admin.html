@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Dashboard</title>
+    <!-- Ensure this path points to the CSS you pasted -->
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-brand">
+            <div class="brand-logo">HM</div>
+            <div>Hospital Admin Console</div>
+        </div>
+
+        <div class="header-user-actions">
+            <div class="user-profile">
+                <div class="avatar-circle" th:text="${initials}">A</div>
+                <div>
+                    <div th:text="${name}" class="u-fw-600">Admin</div>
+                    <div class="u-fs-12px u-color-text-muted">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" aria-label="Sidebar navigation">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active"><a href="/admin">Dashboard</a></li>
+                <li class="sidebar-item"><a href="/admin/users">Users</a></li>
+                <li class="sidebar-item"><a href="/admin/doctor">Doctors</a></li>
+                <li class="sidebar-item"><a href="/admin/appointments">Appointments</a></li>
+                <li class="sidebar-item"><a href="/admin/settings">Settings</a></li>
+               
+                
+            </ul>
+        </aside>
+
+        <!-- Workspace -->
+        <main class="workspace">
+            <section class="page-title-section">
+                <h1>Admin Dashboard</h1>
+            </section>
+
+            <!-- Top Row: Welcome + Mini Stats -->
+            <div class="top-dashboard-grid">
+                <div class="welcome-card">
+                    <div class="welcome-text">
+                        <h2>Welcome back, <span th:text="${name}">Admin</span></h2>
+                        <p>Overview of hospital activity and quick actions.</p>
+                    </div>
+                    <div class="welcome-graphic">🩺</div>
+                </div>
+
+                <div class="mini-stats-grid">
+                    <div class="stat-counter-box">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-value" th:text="${totalUsers}">0</div>
+                    </div>
+                    <div class="stat-counter-box">
+                        <div class="stat-icon">🛡️</div>
+                        <div class="stat-label">Total Admins</div>
+                        <div class="stat-value" th:text="${totalAdmins}">0</div>
+                    </div>
+                    <div class="stat-counter-box">
+                        <div class="stat-icon">🩺</div>
+                        <div class="stat-label">Total Doctors</div>
+                        <div class="stat-value" th:text="${totalDoctors}">0</div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="action-cards-row u-mb-18px">
+                <a href="/admin/users" class="action-card-btn u-td-none">
+                    <div class="action-card-icon">📋</div>
+                    <div>Active Users</div>
+                </a>
+                <a href="/admin/adduser" class="action-card-btn u-bgc-111827">
+                    <div class="action-card-icon">➕</div>
+                    <div>Add New User</div>
+                </a>
+                <a href="/admin/reports" class="action-card-btn">
+                    <div class="action-card-icon">📊</div>
+                    <div>Reports</div>
+                </a>
+                <a href="/admin/settings" class="action-card-btn">
+                    <div class="action-card-icon">⚙️</div>
+                    <div>Settings</div>
+                </a>
+                <a href="/login" class="action-card-btn u-bgc-6b7280">
+                    <div class="action-card-icon">🔒</div>
+                    <div>Logout</div>
+                </a>
+            </div>
+
+            <!-- Action Bar: Search + Utility Buttons -->
+            <div class="content-board u-d-flex u-fd-column u-gap-16px">
+                <div class="board-header">
+                    <div class="board-title">User Management</div>
+                    <div>
+                        <a href="/admin/adduser" class="ui-btn ui-btn-red">Add User</a>
+                    </div>
+                </div>
+
+                <div class="action-bar u-d-flex u-jc-space-between u-ai-center u-gap-16px u-flex-wrap-wrap">
+                    <form action="/admin/searchuser" method="get" class="search-inline-box u-ai-center">
+                        <input type="text" name="keyword" class="field-element" placeholder="Search by name or email..." />
+                        <button type="submit" class="ui-btn ui-btn-outline">Search</button>
+                    </form>
+
+                    <div class="action-buttons u-d-flex u-gap-8px">
+                        <a href="/admin/users" class="ui-btn ui-btn-outline">Active Users</a>
+                        <a href="/admin/adduser" class="ui-btn ui-btn-red">Add New User</a>
+                        <a href="/login" class="ui-btn ui-btn-outline">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example Table Board -->
+            <section class="content-board u-mt-20px">
+                <div class="board-header">
+                    <div class="board-title">Recent Users</div>
+                    <div class="board-actions">
+                        <a href="/admin/users" class="ui-btn ui-btn-outline">View All</a>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="medical-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+								  <tr th:each="user,iterStat : ${recentUsers}">
+								    <td th:text="${iterStat.index + 1}">1</td>
+								    <td th:text="${user.name}">John Doe</td>
+								    <td th:text="${user.email}">john@example.com</td>
+								    <td th:text="${user.role}">User</td>
+								    
+								  </tr>
+								</tbody>
+
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

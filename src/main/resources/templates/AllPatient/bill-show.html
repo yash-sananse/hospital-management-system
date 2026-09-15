@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Bill Details</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+</head>
+
+<body>
+
+<div th:replace="Patient-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <!-- ================= PAGE TITLE ================= -->
+
+        <div class="page-title-section">
+
+            <h1>Hospital Billing</h1>
+
+            <p class="page-subtitle">
+                View your payment details and outstanding balance.
+            </p>
+
+        </div>
+
+
+        <!-- ================= BILL SUMMARY ================= -->
+
+        <div class="bill-summary">
+
+            <!-- Outstanding -->
+
+            <div class="bill-card danger">
+
+                <h3>Outstanding</h3>
+
+                <h2>
+                    ₹ <span th:text="${bill.remainingAmount}">0.00</span>
+                </h2>
+
+            </div>
+
+
+            <!-- Paid -->
+
+            <div class="bill-card success">
+
+                <h3>Paid</h3>
+
+                <h2>
+                    ₹ <span th:text="${bill.paidAmount}">0.00</span>
+                </h2>
+
+            </div>
+
+
+            <!-- Total -->
+
+            <div class="bill-card">
+
+                <h3>Total Bill</h3>
+
+                <h2>
+                    ₹ <span th:text="${bill.totalAmount}">0.00</span>
+                </h2>
+
+            </div>
+
+
+            <!-- Payment Status -->
+
+            <div class="bill-card">
+
+                <h3>Status</h3>
+
+                <span class="status-pill pending"
+                      th:text="${bill.paymentStatus}">
+                    PENDING
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAIN BILL ================= -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Bill Details
+                </h2>
+
+            </div>
+
+
+            <!-- ================= BILL INFORMATION ================= -->
+
+            <div class="bill-info-grid">
+
+
+                <!-- Bill ID -->
+
+                <div>
+
+                    <strong>Bill ID</strong>
+
+                    <p th:text="${bill.id}">
+                        1
+                    </p>
+
+                </div>
+
+
+                <!-- Bill Date -->
+
+                <div>
+
+                    <strong>Bill Date</strong>
+
+                    <p th:text="${#temporals.format(bill.createdAt, 'dd-MM-yyyy HH:mm')}">
+                        03-09-2026
+                    </p>
+
+                </div>
+
+
+                <!-- Patient -->
+
+                <div>
+
+                    <strong>Patient</strong>
+
+                    <p th:text="${bill.patient.name}">
+                        Patient Name
+                    </p>
+
+                </div>
+
+
+                <!-- Doctor -->
+
+                <div>
+
+                    <strong>Doctor</strong>
+
+                    <p th:text="${bill.doctor.fullName}">
+                        Doctor Name
+                    </p>
+
+                </div>
+
+
+                <!-- Appointment ID -->
+
+                <div>
+
+                    <strong>Appointment ID</strong>
+
+                    <p th:text="${bill.appointment.id}">
+                        101
+                    </p>
+
+                </div>
+
+
+                <!-- Appointment Date -->
+
+                <div>
+
+                    <strong>Appointment Date</strong>
+
+                    <p th:text="${bill.appointment.appointmentDate}">
+                        03-09-2026
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CHARGES ================= -->
+
+            <table class="medical-table">
+
+                <thead>
+
+                <tr>
+
+                    <th>Description</th>
+
+                    <th>Amount</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                <!-- Consultation -->
+
+                <tr>
+
+                    <td>Doctor Consultation</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.consultationFee}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- Room -->
+
+                <tr>
+
+                    <td>Room Charges</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.roomCharge}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- Medicines -->
+
+                <tr>
+
+                    <td>Medicines</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.medicineCharge}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- Laboratory -->
+
+                <tr>
+
+                    <td>Laboratory Tests</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.labCharge}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- Other -->
+
+                <tr>
+
+                    <td>Other Charges</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.otherCharge}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- Discount -->
+
+                <tr>
+
+                    <td>Discount</td>
+
+                    <td>
+                        ₹ <span th:text="${bill.discount}">
+                            0.00
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- ================= TOTAL ================= -->
+
+            <div class="bill-total-box">
+
+
+                <!-- Total -->
+
+                <div>
+
+                    <p>Total Charges</p>
+
+                    <h2>
+                        ₹ <span th:text="${bill.totalAmount}">
+                            0.00
+                        </span>
+                    </h2>
+
+                </div>
+
+
+                <!-- Paid -->
+
+                <div>
+
+                    <p>Paid Amount</p>
+
+                    <h2>
+
+                        ₹ <span th:text="${bill.paidAmount}">
+                            0.00
+                        </span>
+
+                    </h2>
+
+                </div>
+
+
+                <!-- Remaining -->
+
+                <div>
+
+                    <p>Remaining</p>
+
+                    <h2 class="danger-text">
+
+                        ₹ <span th:text="${bill.remainingAmount}">
+                            0.00
+                        </span>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="bill-actions">
+
+                <button class="consult-btn" onclick="printBill()">
+                    🖨️ Download / Print Receipt
+                </button>
+
+
+                <!-- Pay Now only if amount is remaining -->
+
+                <button class="consult-btn"
+                        th:if="${bill.remainingAmount > 0}">
+
+                    Pay Now
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    function printBill() {
+        window.print();
+    }
+</script>
+
+</body>
+
+</html>
+

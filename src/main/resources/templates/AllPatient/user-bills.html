@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>My Bills</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<div th:replace="Patient-layout :: header"></div>
+
+
+<!-- ================= MAIN WRAPPER ================= -->
+
+<div class="main-wrapper">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+
+    <!-- ================= WORKSPACE ================= -->
+
+    <main class="workspace">
+
+
+        <!-- ================= PAGE TITLE ================= -->
+
+        <div class="page-title-section">
+
+            <h1>My Bills & Payments</h1>
+
+            <p class="page-subtitle">
+                View all your hospital bills and payment details.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             BILL LIST
+        ====================================================== -->
+
+        <div class="content-board">
+
+
+            <!-- ================= BOARD HEADER ================= -->
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    My Bills
+                </h2>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLE
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="medical-table">
+
+
+                    <!-- ================= TABLE HEADER ================= -->
+
+                    <thead>
+
+                    <tr>
+
+                        <th>
+                            Appointment ID
+                        </th>
+
+                        <th>
+                            Bill Number
+                        </th>
+
+                        <th>
+                            Bill Date
+                        </th>
+
+                        <th>
+                            Doctor
+                        </th>
+
+                        <th>
+                            Total Bill
+                        </th>
+
+                        <th>
+                            Paid
+                        </th>
+
+                        <th>
+                            Remaining
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <!-- ================= TABLE BODY ================= -->
+
+                    <tbody>
+
+
+                    <!--
+                        bills = List<Bill>
+
+                        Each bill belongs to the logged-in patient.
+                    -->
+
+                    <tr th:each="bill : ${bills}">
+
+
+                        <!-- ================= APPOINTMENT ID ================= -->
+
+                        <td>
+
+                            <span th:text="${bill.appointment.id}">
+                                101
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= BILL NUMBER ================= -->
+
+                        <td>
+
+                            <span th:text="${bill.id}">
+                                HB-001
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= BILL DATE ================= -->
+
+                        <td>
+
+                            <span th:text="${bill.createdAt}">
+                                01-09-2026
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= DOCTOR ================= -->
+
+                        <td>
+
+                            <span th:text="${bill.doctor.fullName}">
+                                Dr. Sharma
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= TOTAL BILL ================= -->
+
+                        <td>
+
+                            ₹
+                            <span th:text="${bill.totalAmount}">
+                                0
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= PAID AMOUNT ================= -->
+
+                        <td>
+
+                            ₹
+                            <span th:text="${bill.paidAmount}">
+                                0
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= REMAINING ================= -->
+
+                        <td>
+
+                            ₹
+                            <span th:text="${bill.remainingAmount}">
+                                0
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= STATUS ================= -->
+
+                        <td>
+
+                            <span class="status-pill"
+                                  th:text="${bill.paymentStatus}">
+
+                                Pending
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ================= ACTION ================= -->
+
+                        <td>
+
+                            <a class="ui-btn ui-btn-red"
+                               th:href="@{/user/bill/{appointmentId}(appointmentId=${bill.appointment.id})}">
+
+                                View Bill
+
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         NO BILLS FOUND
+                    ================================================== -->
+
+                    <tr th:if="${#lists.isEmpty(bills)}">
+
+                        <td colspan="9">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    💳
+                                </div>
+
+                                <h3>
+                                    No Bills Found
+                                </h3>
+
+                                <p>
+                                    You don't have any bills yet.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

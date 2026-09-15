@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reception Dashboard</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+
+</head>
+<body class="page-reception">
+
+<!-- Header -->
+<div th:replace="layout-reception :: header"></div>
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="layout-reception :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <div class="dashboard-container">
+
+            <!-- Header -->
+            <div class="dashboard-header">
+
+                <div class="dashboard-title">
+                    <h1>Reception Dashboard</h1>
+                    <p>Manage appointments, check-ins and patient flow.</p>
+                </div>
+
+
+
+            </div>
+
+            <!-- Stats -->
+            <section class="quick-stats">
+
+                <div class="stat-card">
+                    <h3>Today's Appointments</h3>
+                    <div class="stat-number"
+                         th:text="${todayCount}">
+                        12
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Checked-In Patients</h3>
+                    <div class="stat-number"
+                         th:text="${checkedInCount}">
+                        5
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Waiting Patients</h3>
+                    <div class="stat-number"
+                         th:text="${bookedCount}">
+                        7
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Admitted Patients</h3>
+                    <div class="stat-number"
+                         th:text="${admittedCount}">
+                        2
+                    </div>
+                </div>
+
+            </section>
+            
+           <div class="u-d-flex u-jc-flex-end u-mb-20px">
+
+    <form th:action="@{/reception}"
+          method="get"
+          class="u-d-flex u-gap-10px">
+
+        <input type="text"
+               name="keyword"
+               th:value="${keyword}"
+               placeholder="Search by Name or Phone"
+               class="field-element u-w-300px"
+              >
+
+        <button type="submit"
+                 class="ui-btn ui-btn-outline">
+            🔍Search
+        </button>
+
+        
+
+    </form>
+
+</div>
+
+            <!-- Appointment Queue -->
+            <section class="content-board">
+
+                <div class="board-header">
+
+                    <div class="board-title">
+                        Patient Queue
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="medical-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient</th>
+                                <th>Phone</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:if="${#lists.isEmpty(appointments)}">
+
+                                <td colspan="8"
+                                    class="u-ta-center">
+
+                                    No Appointments Found
+
+                                </td>
+
+                            </tr>
+
+                            <tr th:each="appt : ${appointments}">
+
+                                <td th:text="${appt.id}"></td>
+
+                                <td th:text="${appt.patientName}"></td>
+
+                                <td th:text="${appt.phoneNumber}"></td>
+
+                                <td th:text="${appt.doctor.fullName}"></td>
+
+                                <td th:text="${appt.appointmentDate}"></td>
+
+                                <td th:text="${appt.appointmentTime}"></td>
+
+                                <!-- STATUS -->
+                                <td>
+
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).BOOKED}"
+                                          class="status-badge booked">
+
+                                        BOOKED
+
+                                    </span>
+
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CHECKED_IN}"
+                                          class="status-badge checkedin">
+
+                                        CHECKED-IN
+
+                                    </span>
+
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CONSULTED}"
+                                          class="status-badge consulted">
+
+                                        CONSULTED
+
+                                    </span>
+
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).ADMITTED}"
+                                          class="status-badge admitted">
+
+                                        ADMITTED
+
+                                    </span>
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).COMPLETED}"
+                                          class="status-badge admitted">
+
+                                        ADMITTED
+
+                                    </span>
+                                    <span th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).DISCHARGED}"
+                                          class="status-badge admitted">
+
+                                        ADMITTED
+
+                                    </span>
+
+                                </td>
+
+                                <!-- ACTIONS -->
+                                <td>
+
+                                    <!-- CHECK-IN -->
+                                    <a th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).BOOKED}"
+                                       th:href="@{/reception/appointment/checkin/{id}(id=${appt.id})}"
+                                       class="ui-btn checkin-btn">
+
+                                        Check-In
+
+                                    </a>
+
+                                    <!-- CANCEL -->
+                                    <a
+                                       th:href="@{/reception/appointment/cancel/{id}(id=${appt.id})}"
+                                       class="ui-btn cancel-btn"
+                                       onclick="return confirm('Cancel appointment?')">
+
+                                        Cancel
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

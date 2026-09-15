@@ -1,0 +1,167 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+    <!-- HEADER -->
+    <div th:fragment="header">
+
+        <header class="top-header">
+
+            <div class="header-brand">
+
+                <div class="brand-logo">
+                    RC
+                </div>
+
+                <div>
+
+                    <div>
+                        Reception Console
+                    </div>
+
+                    <div th:if="${pageTitle}"
+                         class="header-page-title"
+                         th:text="${pageTitle}">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="header-user-actions">
+
+                <div class="user-profile">
+
+                    <div class="avatar-circle"
+                         th:text="${initials} ?: 'R'">
+
+                        R
+
+                    </div>
+
+                    <div class="u-ta-right">
+
+                        <div
+                             th:text="${name} ?: 'Receptionist'" class="u-fw-600">
+
+                            Receptionist
+
+                        </div>
+
+                        <div class="u-fs-12px u-color-text-muted">
+
+                            Front Desk
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="u-ml-16px">
+
+                    <a th:href="@{/reception}"
+                       class="ui-btn ui-btn-outline">
+
+                        Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </header>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div th:fragment="sidebar">
+
+        <aside class="sidebar">
+
+            <ul class="sidebar-menu">
+
+                <!-- Dashboard -->
+
+                <li class="sidebar-item"
+                    th:classappend="${active == 'dashboard'} ? ' active'">
+
+                    <a th:href="@{/reception}">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <!-- Today's Queue -->
+
+                <li class="sidebar-item"
+                    th:classappend="${active == 'queue'} ? ' active'">
+
+                    <a th:href="@{/reception/today-queue}">
+
+                        Today's Queue
+
+                    </a>
+
+                </li>
+
+                <!-- Appointments -->
+
+                <li class="sidebar-item"
+                    th:classappend="${active == 'appointments'} ? ' active'">
+
+                    <a th:href="@{/reception/appointments}">
+
+                        Appointments
+
+                    </a>
+
+                </li>
+
+                <!-- Add Appointment -->
+
+                <li class="sidebar-item"
+                    th:classappend="${active == 'book'} ? ' active'">
+
+                    <a th:href="@{/reception/Book-Appointment}">
+                    
+
+                        Book Appointment
+
+                    </a>
+
+                </li>
+
+                <!-- Checked In -->
+
+                <li class="sidebar-item"
+                    th:classappend="${active == 'checkedin'} ? ' active'">
+
+                    <a th:href="@{/reception/checkedin-patients}">
+
+                        Checked-In Patients
+
+                    </a>
+
+                </li>
+
+                <!-- Logout -->
+
+                <li class="sidebar-item">
+
+                    <a th:href="@{/logout}">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+    </div>
+
+</div>

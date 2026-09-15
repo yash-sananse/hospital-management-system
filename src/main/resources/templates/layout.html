@@ -1,0 +1,83 @@
+<!-- src/main/resources/templates/layout.html -->
+
+<div xmlns:th="http://www.thymeleaf.org">
+
+  <!-- Header fragment -->
+  <div th:fragment="header">
+    <header class="top-header" role="banner" aria-label="Top header">
+      <div class="header-brand">
+        <div class="brand-logo" aria-hidden="true">HM</div>
+        <div>
+          <div>Hospital Admin Console</div>
+          <div th:if="${pageTitle}"
+               class="header-page-title"
+               th:text="${pageTitle}">
+          </div>
+        </div>
+      </div>
+
+      <div class="header-user-actions">
+        <div class="user-profile">
+          <div class="avatar-circle"
+               th:text="${initials} ?: 'A'">
+            A
+          </div>
+
+          <div class="header-user-name u-ta-right">
+            <div
+                 th:text="${name} ?: 'Admin'" class="u-fw-600">
+              Admin
+            </div>
+
+            <div class="u-fs-12px u-color-text-muted">
+              Administrator
+            </div>
+          </div>
+        </div>
+
+        <div class="u-ml-16px">
+          <a th:href="@{/admin}"
+             class="ui-btn ui-btn-outline"
+             title="Go to Dashboard">
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Sidebar fragment -->
+  <div th:fragment="sidebar">
+    <aside class="sidebar" aria-label="Sidebar navigation">
+      <ul class="sidebar-menu">
+
+        <li class="sidebar-item"
+            th:classappend="${active == 'dashboard'} ? ' active'">
+          <a th:href="@{/admin}">Dashboard</a>
+        </li>
+
+        <li class="sidebar-item"
+            th:classappend="${active == 'users'} ? ' active'">
+          <a th:href="@{/admin/users}">Users</a>
+        </li>
+
+        <li class="sidebar-item"
+            th:classappend="${active == 'doctors'} ? ' active'">
+          <a th:href="@{/admin/doctor}">Doctors</a>
+        </li>
+
+        <li class="sidebar-item"
+            th:classappend="${active == 'appointments'} ? ' active'">
+          <a th:href="@{/admin/appointments}">Appointments</a>
+        </li>
+
+        <li class="sidebar-item"
+            th:classappend="${active == 'settings'} ? ' active'">
+          <a th:href="@{/admin/settings}">Settings</a>
+        </li>
+
+      </ul>
+    </aside>
+  </div>
+
+</div>

@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Coming Soon | City Hospital</title>
+
+    <!-- Your existing CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="doctor-layout :: header"></div>
+
+<!-- Sidebar -->
+<div th:replace="doctor-layout :: sidebar"></div>
+
+
+<!-- Main Content -->
+<div class="main-wrapper">
+
+    <main class="workspace">
+
+        <div class="centered-page">
+
+            <div class="centered-card">
+
+                <div class="content-board coming-soon-card">
+
+                    <div class="coming-soon-icon">
+                        🚧
+                    </div>
+
+                    <h1>Coming Soon</h1>
+
+                    <p>
+                        This feature is currently under development.
+                    </p>
+
+                    <p>
+                        We are working hard to bring this functionality
+                        to City Hospital.
+                    </p>
+
+                    <a th:href="@{/doctor/dashboard}" class="ui-btn ui-btn-red">
+                        Back to Dashboard
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

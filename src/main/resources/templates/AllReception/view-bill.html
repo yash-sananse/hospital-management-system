@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Bill - Reception</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+
+<div th:replace="layout-reception :: header"></div>
+
+
+<div class="main-wrapper">
+
+
+    <div th:replace="layout-reception :: sidebar"></div>
+
+
+    <main class="workspace">
+
+
+        <!-- =================================================
+             TITLE
+        ================================================== -->
+
+        <div class="page-title-section">
+
+            <h1>Patient Bill</h1>
+
+            <p class="page-subtitle">
+                Bill generated successfully.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BILL
+        ================================================== -->
+
+        <div class="content-board">
+
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Bill Details
+                </h2>
+
+            </div>
+
+
+
+            <!-- PATIENT DETAILS -->
+
+            <div class="bill-info-grid">
+
+
+                <div>
+
+                    <strong>Bill ID</strong>
+
+                    <p th:text="${bill.id}">
+                        1
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Patient Name</strong>
+
+                    <p th:text="${bill.patient.name}">
+                        Patient Name
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Doctor</strong>
+
+                    <p th:text="${bill.doctor.fullName}">
+                        Doctor Name
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Appointment Date</strong>
+
+                    <p th:text="${bill.appointment.appointmentDate}">
+                        Date
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Appointment Time</strong>
+
+                    <p th:text="${bill.appointment.appointmentTime}">
+                        Time
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Bill Created</strong>
+
+                    <p th:text="${bill.createdAt}">
+                        Date
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             CHARGES
+        ================================================== -->
+
+        <div class="content-board">
+
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Charges
+                </h2>
+
+            </div>
+
+
+
+            <div class="bill-info-grid">
+
+
+                <div>
+
+                    <strong>Consultation Fee</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.consultationFee}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Medicine Charges</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.medicineCharge}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Laboratory Charges</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.labCharge}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Room Charges</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.roomCharge}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Other Charges</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.otherCharge}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Discount</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.discount}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAYMENT DETAILS
+        ================================================== -->
+
+        <div class="content-board">
+
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Payment Details
+                </h2>
+
+            </div>
+
+
+            <div class="bill-info-grid">
+
+
+                <div>
+
+                    <strong>Total Amount</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.totalAmount}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Amount Paid</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.paidAmount}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Remaining Amount</strong>
+
+                    <p>
+                        ₹
+                        <span th:text="${bill.remainingAmount}">
+                            0
+                        </span>
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <strong>Payment Status</strong>
+
+                    <p th:text="${bill.paymentStatus}">
+                        PENDING
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             BUTTONS
+        ================================================== -->
+
+        <!-- =================================================
+             BUTTONS
+        ================================================== -->
+
+        <div class="bill-form-actions">
+
+            <!-- Back -->
+            <a href="/reception/appointments"
+               class="ui-btn ui-btn-outline">
+                Back to Appointments
+            </a>
+
+
+            <!-- Edit Bill -->
+            <a th:href="@{/reception/bill/edit/{id}(id=${bill.id})}"
+               class="ui-btn">
+                Edit Bill
+            </a>
+
+
+            <!-- Mark as Paid -->
+            <form th:if="${bill.paymentStatus.name() != 'PAID'}"
+                  th:action="@{/reception/bill/{id}/paid(id=${bill.id})}"
+                  method="post"
+                  class="u-d-inline">
+
+                <button type="submit"
+                        class="ui-btn">
+                    Mark as Paid
+                </button>
+
+            </form>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

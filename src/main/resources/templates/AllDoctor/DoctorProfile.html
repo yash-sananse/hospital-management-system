@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Doctor Profile</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- Header -->
+    <div th:replace="doctor-layout :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="doctor-layout :: sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="workspace">
+
+            <div class="page-title-section">
+                <h1>My Profile</h1>
+            </div>
+
+            <div class="content-board">
+
+                <!-- Profile Header -->
+
+                <div class="profile-header-card">
+
+                   <div class="profile-avatar"
+     th:text="${#strings.substring(doctor.fullName,0,1)}">
+    D
+</div>
+
+                    <div class="profile-details">
+
+                        <h2 th:text="${doctor.fullName}">
+                            Doctor Name
+                        </h2>
+
+                        <p th:text="${doctor.specialty}">
+                            Cardiologist
+                        </p>
+
+                        <span class="status-badge active"
+                              th:if="${doctor.active}">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Active
+                        </span>
+
+                        <span class="status-badge inactive"
+                              th:unless="${doctor.active}">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            Inactive
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <hr class="u-m-30px-0">
+
+                <!-- Doctor Information -->
+
+                <div class="profile-grid">
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-id-badge"></i>
+                            Doctor ID
+                        </label>
+
+                        <span th:text="${doctor.id}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-user"></i>
+                            Full Name
+                        </label>
+
+                        <span th:text="${doctor.fullName}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-envelope"></i>
+                            Email
+                        </label>
+
+                        <span th:text="${doctor.email}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-phone"></i>
+                            Phone Number
+                        </label>
+
+                        <span th:text="${doctor.phoneNumber}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-user-circle"></i>
+                            Username
+                        </label>
+
+                        <span th:text="${doctor.username}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-stethoscope"></i>
+                            Specialty
+                        </label>
+
+                        <span th:text="${doctor.specialty}"></span>
+                    </div>
+
+                    <div class="profile-item">
+                        <label>
+                            <i class="fa-solid fa-hospital"></i>
+                            Clinic
+                        </label>
+
+                        <span th:text="${doctor.clinic}"></span>
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="u-mt-35px u-d-flex u-gap-15px">
+
+                    
+
+                    <a th:href="@{/doctor/change-password}"
+                       class="ui-btn ui-btn-outline">
+                        <i class="fa-solid fa-key"></i>
+                        &nbsp; Change Password
+                    </a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

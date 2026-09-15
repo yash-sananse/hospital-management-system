@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Users - Admin Console</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div th:replace="layout:: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="layout:: sidebar"></div>
+
+        <!-- Workspace -->
+        <main class="workspace" role="main" aria-labelledby="manage-users-title">
+
+            <section class="page-title-section">
+                <h1 id="manage-users-title">Manage Users</h1>
+            </section>
+
+            <section class="content-board" aria-describedby="users-desc">
+
+                <div class="board-header">
+                    <div class="board-title">User Directory</div>
+
+                    <div>
+                        <a th:href="@{/admin/adduser}" class="ui-btn ui-btn-red">
+                            Add New User
+                        </a>
+                    </div>
+                </div>
+
+                <div class="u-d-flex u-jc-space-between u-ai-center u-gap-12px u-mb-16px u-flex-wrap-wrap">
+
+                    <form action="/admin/searchuser"
+                          method="get"
+                          class="search-inline-box u-ai-center"
+                         >
+
+                        <input type="text"
+                               name="keyword"
+                               class="field-element"
+                               placeholder="Search by name or email..." />
+
+                        <button type="submit"
+                                class="ui-btn ui-btn-outline">
+                            Search
+                        </button>
+
+                    </form>
+
+                    <div class="u-d-flex u-gap-8px">
+                        <a th:href="@{/admin/users}"
+                           class="ui-btn ui-btn-outline">
+                            All Users
+                        </a>
+
+                        <a th:href="@{/admin}"
+                           class="ui-btn ui-btn-outline">
+                            Dashboard
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper" id="users-desc">
+
+                    <table class="data-table"
+                           role="table"
+                           aria-label="Users table">
+
+                        <thead>
+                            <tr>
+                                <th>System ID</th>
+                                <th>User Name</th>
+                                <th>Email Address</th>
+                                <th>Assigned Role</th>
+                                <th class="u-ta-center">
+                                    Operational Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:if="${#lists.isEmpty(users)}">
+                                <td colspan="5"
+                                    class="u-ta-center u-color-text-muted u-p-30px">
+                                    No registered user records match your parameters.
+                                </td>
+                            </tr>
+
+                            <tr th:each="u : ${users}">
+
+                                <td
+                                    th:text="${u.id}" class="u-fw-600 u-color-527acc">
+                                    #
+                                </td>
+
+                                <td
+                                    th:text="${u.name}" class="u-fw-500 u-color-111827">
+                                    Name
+                                </td>
+
+                                <td th:text="${u.email}">
+                                    email@example.com
+                                </td>
+
+                                <td>
+                                    <span class="role-badge"
+                                          th:text="${u.role}">
+                                        Role
+                                    </span>
+                                </td>
+
+                                <td>
+
+                                    <div class="u-d-flex u-gap-8px u-jc-center">
+
+                                        <a th:href="@{/admin/edit/{id}(id=${u.id})}"
+                                           class="ui-btn-table-edit">
+                                            Update
+                                        </a>
+
+                                        <!-- Doctor Active -->
+                                        <a th:if="${u.role.name() == 'DOCTOR' && u.active}"
+                                           th:href="@{/admin/doctor/deactivate/{id}(id=${u.id})}"
+                                           class="ui-btn-table-delete"
+                                           onclick="return confirm('Deactivate this doctor?');">
+                                            Deactivate
+                                        </a>
+
+                                        <!-- Doctor Inactive -->
+                                        <a th:if="${u.role.name() == 'DOCTOR' && !u.active}"
+                                           th:href="@{/admin/doctor/activate/{id}(id=${u.id})}"
+                                           class="ui-btn-table-edit"
+                                           onclick="return confirm('Activate this doctor?');">
+                                            Activate
+                                        </a>
+
+                                        <!-- Normal Users -->
+                                        <a th:if="${u.role.name() != 'DOCTOR'}"
+                                           th:href="@{/admin/delete/{id}(id=${u.id})}"
+                                           class="ui-btn-table-delete"
+                                           onclick="return confirm('Delete this user?');">
+                                            Delete
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="pagination-container" th:if="${userPage != null and userPage.totalPages > 1}">
+                    <a class="pagination-link" th:if="${!userPage.first and (keyword == null or #strings.isEmpty(keyword))}"
+                       th:href="@{/admin/users(page=${userPage.number - 1})}">Previous</a>
+                    <a class="pagination-link" th:if="${!userPage.first and keyword != null and !#strings.isEmpty(keyword)}"
+                       th:href="@{/admin/searchuser(page=${userPage.number - 1},keyword=${keyword})}">Previous</a>
+                    <span class="pagination-link disabled" th:if="${userPage.first}">Previous</span>
+                    <a class="pagination-link" th:each="p : ${#numbers.sequence(0, userPage.totalPages - 1)}"
+                       th:classappend="${p == userPage.number} ? ' active' : ''"
+                       th:href="@{/admin/users(page=${p})}" th:if="${keyword == null or #strings.isEmpty(keyword)}"
+                       th:text="${p + 1}">1</a>
+                    <a class="pagination-link" th:each="p : ${#numbers.sequence(0, userPage.totalPages - 1)}"
+                       th:classappend="${p == userPage.number} ? ' active' : ''"
+                       th:href="@{/admin/searchuser(page=${p},keyword=${keyword})}" th:if="${keyword != null and !#strings.isEmpty(keyword)}"
+                       th:text="${p + 1}">1</a>
+                    <a class="pagination-link" th:if="${!userPage.last and (keyword == null or #strings.isEmpty(keyword))}"
+                       th:href="@{/admin/users(page=${userPage.number + 1})}">Next</a>
+                    <a class="pagination-link" th:if="${!userPage.last and keyword != null and !#strings.isEmpty(keyword)}"
+                       th:href="@{/admin/searchuser(page=${userPage.number + 1},keyword=${keyword})}">Next</a>
+                    <span class="pagination-link disabled" th:if="${userPage.last}">Next</span>
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospital Management System</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-brand">
+      <div class="brand-logo">HM</div>
+      <div>Hospital Management System</div>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <main class="workspace" style="display:flex;justify-content:center;align-items:center;">
+      <section class="content-board" style="max-width:480px;text-align:center;">
+        <div class="board-header" style="justify-content:center;">
+          <div class="board-title">Welcome</div>
+        </div>
+
+        <h2 style="margin-bottom:12px;">Welcome To <span style="color:var(--primary-red);">Hospital</span></h2>
+        <p style="color:var(--text-muted);margin-bottom:24px;">
+          Please log in or register a new account to continue.
+        </p>
+
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <a href="/login" class="ui-btn ui-btn-red">Login</a>
+          <a href="/register" class="ui-btn ui-btn-outline">Register</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

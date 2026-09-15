@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="doctor-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="doctor-layout :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Doctor Dashboard</h1>
+        </div>
+
+        <!-- Statistics -->
+        <div class="mini-stats-grid u-mb-24px">
+
+            <div class="stat-counter-box">
+                <div class="stat-icon">📅</div>
+                <div class="stat-label">Today's Appointments</div>
+                <div class="stat-value"
+                     th:text="${todayAppointmentCount}">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-counter-box">
+                <div class="stat-icon">👨‍⚕️</div>
+                <div class="stat-label">Total Patients</div>
+                <div class="stat-value"
+                     th:text="${totalPatients}">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-counter-box">
+                <div class="stat-icon">📄</div>
+                <div class="stat-label">Pending Reports</div>
+                <div class="stat-value"
+                     th:text="${pendingReports}">
+                    0
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Today's Schedule Preview -->
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Today's Schedule</h2>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="medical-table">
+
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:if="${#lists.isEmpty(todaySchedule)}">
+                        <td colspan="5" class="u-ta-center">
+                            No appointments today
+                        </td>
+                    </tr>
+
+                    <tr th:each="appointment, stat : ${todaySchedule}">
+                        <td th:text="${stat.count}"></td>
+                        <td th:text="${appointment.patientName}"></td>
+                        <td th:text="${appointment.phoneNumber}"></td>
+                        <td th:text="${appointment.reason}"></td>
+                        <td th:text="${appointment.status}"></td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

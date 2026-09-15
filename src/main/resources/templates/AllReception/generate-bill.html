@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Generate Bill - Reception</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<!-- Your existing header -->
+<div th:replace="layout-reception :: header"></div>
+
+
+<div class="main-wrapper">
+
+    <!-- Your existing sidebar -->
+    <div th:replace="layout-reception :: sidebar"></div>
+
+
+    <main class="workspace">
+
+        <!-- =========================
+             PAGE TITLE
+        ========================== -->
+
+        <div class="page-title-section">
+
+            <h1>Generate Patient Bill</h1>
+
+            <p class="page-subtitle">
+                Create a bill for the patient's appointment.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             PATIENT / APPOINTMENT INFO
+        ========================== -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Appointment Details
+                </h2>
+
+            </div>
+
+
+            <div class="bill-info-grid">
+
+                <div>
+
+                    <strong>Patient Name</strong>
+
+                    <p th:text="${appointment.patientName}">
+                        Patient Name
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>Doctor</strong>
+
+                    <p th:text="${appointment.doctor.fullName}">
+                        Doctor Name
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>Appointment Date</strong>
+
+                    <p th:text="${appointment.appointmentDate}">
+                        Date
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <strong>Appointment Time</strong>
+
+                    <p th:text="${appointment.appointmentTime}">
+                        Time
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             BILL FORM
+        ========================== -->
+
+        <div class="content-board bill-form-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Bill Charges
+                </h2>
+
+            </div>
+
+
+            <form
+                    th:action="@{/reception/generate-bill}"
+                    method="post">
+
+
+                <!-- Appointment ID -->
+
+                <input
+                        type="hidden"
+                        name="appointmentId"
+                        th:value="${appointment.id}">
+
+
+                <!-- =========================
+                     CONSULTATION FEE
+                ========================== -->
+
+                <div class="bill-charge-row">
+
+                    <div>
+
+                        <label>
+                            Doctor Consultation Fee
+                        </label>
+
+                        <p class="charge-description">
+                            Automatically taken from doctor's fee.
+                        </p>
+
+                    </div>
+
+
+                    <div class="automatic-charge">
+
+                        ₹
+                        <span th:text="${consultationFee}">
+                            0
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     MEDICINE
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Medicine Charges (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="medicineCharge"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter medicine charges">
+
+                </div>
+
+
+                <!-- =========================
+                     LAB
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Laboratory Charges (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="labCharge"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter laboratory charges">
+
+                </div>
+
+
+                <!-- =========================
+                     ROOM
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Room Charges (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="roomCharge"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter room charges">
+
+                </div>
+
+
+                <!-- =========================
+                     OTHER
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Other Charges (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="otherCharge"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter other charges">
+
+                </div>
+
+
+                <!-- =========================
+                     DISCOUNT
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Discount (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="discount"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter discount">
+
+                </div>
+
+
+                <!-- =========================
+                     PAID AMOUNT
+                ========================== -->
+
+                <div class="input-block">
+
+                    <label>
+                        Amount Paid (₹)
+                    </label>
+
+                    <input
+                            type="number"
+                            name="paidAmount"
+                            class="field-element"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            placeholder="Enter amount paid">
+
+                </div>
+
+
+                <!-- =========================
+                     BUTTONS
+                ========================== -->
+
+                <div class="bill-form-actions">
+
+                    <a
+                            href="/reception/appointments"
+                            class="ui-btn ui-btn-outline">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                            type="submit"
+                            class="ui-btn ui-btn-red">
+
+                        Generate Bill
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const fields = document.querySelectorAll(
+            'input[type="number"]:not([type="hidden"])'
+        );
+
+        fields.forEach((field, index) => {
+
+            field.addEventListener("keydown", function (event) {
+
+                if (event.key === "Enter") {
+                    event.preventDefault();
+
+                    const nextField = fields[index + 1];
+
+                    if (nextField) {
+                        nextField.focus();
+                    } else {
+                        // If this is the last field, focus Generate Bill button
+                        document.querySelector('button[type="submit"]').focus();
+                    }
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+</body>
+
+</html>

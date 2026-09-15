@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Prescriptions</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="doctor-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="doctor-layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Patient Prescriptions</h1>
+        </div>
+
+        <!-- Search -->
+
+        <div class="content-board search-board">
+
+            <form th:action="@{/doctor/prescription/search}"
+                  method="get"
+                  class="patient-search-form">
+
+                <input type="text"
+                       name="keyword"
+                       placeholder="🔍 Search patient by name or phone..."
+                       class="search-input">
+
+                <button type="submit"
+                        class="search-btn">
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Prescription Table -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Prescription Records</h2>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="medical-table">
+
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Last Visit</th>
+                        <th>Next Visit</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:if="${#lists.isEmpty(prescriptions)}">
+                        <td colspan="6" class="u-ta-center">
+                            No prescriptions found.
+                        </td>
+                    </tr>
+
+                    <tr th:each="prescription, stat : ${prescriptions}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${prescription.appointment.patientName}"></td>
+
+						<td th:text="${prescription.appointment.phoneNumber}"></td>
+
+                        <td th:text="${#temporals.format(prescription.createdAt,'dd-MM-yyyy')}"></td>
+
+                        <td th:text="${prescription.followUpDate ?: 'N/A'}"></td>
+
+                        <td>
+                            <a th:href="@{/doctor/prescription/view/{id}(id=${prescription.id})}"
+                               class="consult-btn">
+                                View
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="pagination-container" th:if="${prescriptionPage != null and prescriptionPage.totalPages > 1}">
+            <a class="pagination-link" th:if="${!prescriptionPage.first and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/doctor/prescription(page=${prescriptionPage.number - 1})}">Previous</a>
+            <a class="pagination-link" th:if="${!prescriptionPage.first and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/doctor/prescription/search(page=${prescriptionPage.number - 1},keyword=${keyword})}">Previous</a>
+            <span class="pagination-link disabled" th:if="${prescriptionPage.first}">Previous</span>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, prescriptionPage.totalPages - 1)}" th:if="${keyword == null or #strings.isEmpty(keyword)}" th:classappend="${p == prescriptionPage.number} ? ' active' : ''" th:href="@{/doctor/prescription(page=${p})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, prescriptionPage.totalPages - 1)}" th:if="${keyword != null and !#strings.isEmpty(keyword)}" th:classappend="${p == prescriptionPage.number} ? ' active' : ''" th:href="@{/doctor/prescription/search(page=${p},keyword=${keyword})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:if="${!prescriptionPage.last and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/doctor/prescription(page=${prescriptionPage.number + 1})}">Next</a>
+            <a class="pagination-link" th:if="${!prescriptionPage.last and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/doctor/prescription/search(page=${prescriptionPage.number + 1},keyword=${keyword})}">Next</a>
+            <span class="pagination-link disabled" th:if="${prescriptionPage.last}">Next</span>
+        </div>
+
+    </main>
+
+
+
+</div>
+
+</body>
+</html>

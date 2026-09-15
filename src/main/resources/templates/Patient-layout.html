@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- ================= HEADER FRAGMENT ================= -->
+<div th:fragment="header">
+
+    <header class="top-header">
+
+        <div class="header-brand">
+            <div class="brand-logo">CH</div>
+            <span>City Hospital</span>
+        </div>
+
+        <div class="header-user-actions">
+
+            <div class="user-profile">
+
+                <div class="avatar-circle"
+				     th:text="${initials}">
+				</div>
+
+			<div th:text="${loggedInUser.name}"></div>
+
+                    <small class="role-badge">USER</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+</div>
+
+
+<!-- ================= SIDEBAR FRAGMENT ================= -->
+<div th:fragment="sidebar">
+
+    <aside class="sidebar">
+
+        <ul class="sidebar-menu">
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'dashboard'} ? 'active'">
+                <a th:href="@{/patient/dashboard}">
+                    🏠 Dashboard
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'mypro'} ? 'active'">
+                <a th:href="@{/user/profile}">
+                    👤 My Profile
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'bookAppointment'} ? 'active'">
+                <a th:href="@{/user/book-appointment}">
+                    📅 Book Appointment
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'myAppointment'} ? 'active'">
+                <a th:href="@{/user/appointments}">
+                    📋 My Appointments
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'medical history'} ? 'active'">
+                <a th:href="@{/user/medical-history}">
+                    📖 Medical History
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'Prescriptions'} ? 'active'">
+                <a th:href="@{/user/prescriptions}">
+                    💊 Prescriptions
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'LabReports'} ? 'active'">
+                <a th:href="@{/user/reports}">
+                    🧪 Lab Reports
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'Bills'} ? 'active'">
+
+                <a th:href="@{/user/bills}">
+                    💳 Bills & Payments
+                </a>
+
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'Notifications'} ? 'active'">
+                <a th:href="@{/user/notifications}">
+                    🔔 Notifications
+                </a>
+            </li>
+
+            <li class="sidebar-item"
+                th:classappend="${activePage == 'Change Password'} ? 'active'">
+                <a th:href="@{/user/change-password}">
+                    🔒 Change Password
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a th:href="@{/logout}">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+</div>
+
+</html>

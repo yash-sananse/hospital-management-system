@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Hospital Management System</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="top-header">
+
+        <div class="header-brand">
+
+            <div class="brand-logo">
+                HM
+            </div>
+
+            <div>
+                Hospital Management System
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Centered Login -->
+    <div class="centered-page">
+
+        <div class="centered-card">
+
+            <section class="content-board form-max-container">
+
+                <!-- Heading -->
+                <div class="board-header">
+
+                    <div>
+
+                        <div class="board-title">
+                            Welcome Back
+                        </div>
+
+                        <p class="u-fs-14px u-color-text-muted u-mt-4px">
+
+                            Sign in to continue
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Error Message -->
+                <div th:if="${param.error}"
+                     class="u-bg-fef2f2 u-color-b91c1c u-p-10px-14px u-br-8px u-mb-18px u-fs-14px u-border-1px-solid-fecaca">
+
+                    Invalid email or password
+
+                </div>
+
+                <!-- Logout Message -->
+                <div th:if="${param.logout}"
+                     class="u-bg-ecfdf5 u-color-166534 u-p-10px-14px u-br-8px u-mb-18px u-fs-14px u-border-1px-solid-bbf7d0">
+
+                    You have been logged out
+
+                </div>
+
+                <!-- Login Form -->
+                <form th:action="@{/login}"
+                      method="post">
+
+                    <!-- Email -->
+                    <div class="input-block">
+
+                        <label>Email Address</label>
+
+                        <input type="email"
+                               name="username"
+                               class="field-element"
+                               placeholder="Enter your email"
+                               required>
+
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-block">
+
+                        <label>Password</label>
+
+                        <input type="password"
+                               name="password"
+                               class="field-element"
+                               placeholder="Enter your password"
+                               required>
+
+                    </div>
+
+                    <!-- Remember + Forgot -->
+                    <div class="u-d-flex u-jc-space-between u-ai-center u-mb-20px u-fs-14px">
+
+                        <label class="u-d-flex u-ai-center u-gap-8px u-color-text-muted">
+
+                            <input type="checkbox">
+
+                            Remember me
+
+                        </label>
+
+                        <a href="#"
+                           class="u-color-primary-red u-td-none u-fw-500">
+
+                            Forgot Password?
+
+                        </a>
+
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit"
+                            class="ui-btn ui-btn-red u-w-100pct"
+                           >
+
+                        Login
+
+                    </button>
+
+                </form>
+
+                <!-- Register -->
+                <div class="u-mt-22px u-ta-center u-fs-14px u-color-text-muted">
+
+                    Don't have an account?
+
+                    <a th:href="@{/register}"
+                       class="u-color-primary-red u-fw-600 u-td-none">
+
+                        Create Account
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>User Dashboard</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="Patient-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="Patient-layout:: sidebar"></div>
+
+    <div class="workspace">
+
+        <div class="page-title-section">
+            <h1>User Dashboard</h1>
+        </div>
+
+        <!-- Top Section -->
+
+        <div class="top-dashboard-grid">
+
+            <div class="welcome-card">
+
+                <div class="welcome-text">
+
+                    <h2>
+                        Welcome,
+                        <span th:text="${loggedInUser.name}">
+                            User
+                        </span>
+                        👋
+                    </h2>
+
+                    <p>
+                        Welcome to City Hospital.
+                        We hope you stay healthy.
+                    </p>
+
+                </div>
+
+                <div class="welcome-graphic">
+                    🏥
+                </div>
+
+            </div>
+
+            <div class="mini-stats-grid">
+
+                <div class="stat-counter-box">
+
+                    <div class="stat-icon">
+                        📅
+                    </div>
+
+                    <div class="stat-label">
+                        Upcoming Appointment
+                    </div>
+
+                    <div class="stat-value">
+                        1
+                    </div>
+
+                </div>
+
+                <div class="stat-counter-box">
+
+                    <div class="stat-icon">
+                        💊
+                    </div>
+
+                    <div class="stat-label">
+                        Prescriptions
+                    </div>
+
+                    <div class="stat-value">
+                        4
+                    </div>
+
+                </div>
+
+                <div class="stat-counter-box">
+
+                    <div class="stat-icon">
+                        💳
+                    </div>
+
+                    <div class="stat-label">
+                        Pending Bills
+                    </div>
+
+                    <div class="stat-value">
+                        ₹0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+
+        <div class="action-cards-row">
+
+            <a th:href="@{/user/book-appointment}" class="action-card-btn">
+
+                <div class="action-card-icon">📅</div>
+
+                <div>Book Appointment</div>
+
+            </a>
+
+            <a th:href="@{/user/appointments}" class="action-card-btn">
+
+                <div class="action-card-icon">📋</div>
+
+                <div>Appointments</div>
+
+            </a>
+
+            <a th:href="@{/user/prescriptions}" class="action-card-btn">
+
+                <div class="action-card-icon">💊</div>
+
+                <div>Prescriptions</div>
+
+            </a>
+
+            <a th:href="@{/user/reports}" class="action-card-btn">
+
+                <div class="action-card-icon">🧪</div>
+
+                <div>Lab Reports</div>
+
+            </a>
+
+            <a th:href="@{/user/profile}" class="action-card-btn">
+
+                <div class="action-card-icon">👤</div>
+
+                <div>My Profile</div>
+
+            </a>
+
+        </div>
+
+        <!-- Upcoming Appointment -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Upcoming Appointment
+                </h2>
+
+            </div>
+
+            <table class="medical-table">
+
+                <thead>
+
+                <tr>
+
+                    <th>Doctor</th>
+
+                    <th>Department</th>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr>
+
+                    <td>Dr. Amit Sharma</td>
+
+                    <td>Cardiology</td>
+
+                    <td>05-Jul-2026</td>
+
+                    <td>11:00 AM</td>
+
+                    <td>Confirmed</td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <br>
+
+        <!-- Recent Prescription -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+
+                    Recent Prescription
+
+                </h2>
+
+            </div>
+
+            <table class="medical-table">
+
+                <thead>
+
+                <tr>
+
+                    <th>Medicine</th>
+
+                    <th>Dosage</th>
+
+                    <th>Duration</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr>
+
+                    <td>Vitamin C</td>
+
+                    <td>Morning & Night</td>
+
+                    <td>7 Days</td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

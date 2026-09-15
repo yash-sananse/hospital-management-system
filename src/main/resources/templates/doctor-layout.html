@@ -1,0 +1,144 @@
+<!-- src/main/resources/templates/doctor-layout.html -->
+
+<div xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Header Fragment -->
+    <div th:fragment="header">
+
+        <header class="top-header">
+
+            <div class="header-brand">
+                <div class="brand-logo">DR</div>
+
+                <div>
+                    <div>Doctor Portal</div>
+
+                    <div th:if="${pageTitle}"
+                         class="header-page-title"
+                         th:text="${pageTitle}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-user-actions">
+
+                <div class="user-profile">
+
+                    <div class="avatar-circle"
+                         th:text="${initials} ?: 'D'">
+                        D
+                    </div>
+
+                    <div class="u-ta-right">
+                        <div
+                             th:text="${doctorName} ?: 'Doctor'" class="u-fw-600">
+                            Doctor
+                        </div>
+
+                        <div class="u-fs-12px u-color-text-muted">
+                            Doctor
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="u-ml-16px">
+                    <a th:href="@{/doctor/dashboard}"
+                       class="ui-btn ui-btn-outline">
+                        Dashboard
+                    </a>
+                </div>
+
+            </div>
+
+        </header>
+
+    </div>
+
+
+
+    <!-- Sidebar Fragment -->
+    <div th:fragment="sidebar">
+
+        <aside class="sidebar">
+
+            <ul class="sidebar-menu">
+
+                <!-- Dashboard -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'dashboard'} ? ' active'">
+                    <a th:href="@{/doctor/dashboard}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Patients -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'patients'} ? ' active'">
+                    <a th:href="@{/doctor/patients}">
+                        Patients
+                    </a>
+                </li>
+
+                <!-- Appointments -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'appointments'} ? ' active'">
+                    <a th:href="@{/doctor/appointments}">
+                        Appointments
+                    </a>
+                </li>
+
+                <!-- Today's Schedule -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'schedule'} ? ' active'">
+                    <a th:href="@{/doctor/schedule}">
+                        Today's Schedule
+                    </a>
+                </li>
+
+                <!-- Prescriptions -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'prescriptions'} ? ' active'">
+                    <a th:href="@{/doctor/prescription}">
+                        Prescriptions
+                    </a>
+                </li>
+
+                <!-- Medical Records -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'records'} ? ' active'">
+                    <a th:href="@{/doctor/records}">
+                        Medical Records
+                    </a>
+                </li>
+
+                <!-- Profile -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'profile'} ? ' active'">
+                    <a th:href="@{/doctor/profile}">
+                        Profile
+                    </a>
+                </li>
+
+                <!-- Change Password -->
+                <li class="sidebar-item"
+                    th:classappend="${active == 'password'} ? ' active'">
+                    <a th:href="@{/doctor/change-password}">
+                        Change Password
+                    </a>
+                </li>
+
+                <!-- Logout -->
+                <li class="sidebar-item">
+                    <a th:href="@{/logout}">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </aside>
+
+    </div>
+
+</div>

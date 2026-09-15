@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checked-In Patients</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="layout-reception :: header"></div>
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="layout-reception :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Checked-In Patients</h1>
+        </div>
+
+        <div class="content-board">
+
+            <!-- Success Message -->
+            <div id="successMessage"
+                 th:if="${successMessage}"
+                 class="u-bg-d4edda u-color-155724 u-p-10px u-mb-15px u-br-5px">
+
+                <span th:text="${successMessage}"></span>
+
+            </div>
+
+            <div class="board-header">
+                <div class="board-title">
+                    Checked-In Patient List
+                </div>
+            </div>
+
+            <!-- Search -->
+            <form th:action="@{/reception/checkedin-patients}"
+      method="get"
+      class="u-mb-15px u-d-flex u-gap-10px">
+
+    <input type="text"
+           name="keyword"
+           th:value="${keyword}"
+           placeholder="Search by name or phone"
+           class="field-element">
+
+    <button type="submit"
+            class="ui-btn ui-btn-red">
+        Search
+    </button>
+
+</form>
+
+            <!-- Table -->
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="appointment : ${appointments}">
+
+                        <td th:text="${appointment.id}"></td>
+
+                        <td th:text="${appointment.patientName}"></td>
+
+                        <td th:text="${appointment.phoneNumber}"></td>
+
+                        <td th:text="${appointment.doctor.fullName}"></td>
+
+                        <td th:text="${appointment.appointmentDate}"></td>
+
+                        <td th:text="${appointment.appointmentTime}"></td>
+
+                        <td>
+                            <span class="u-color-green u-fw-bold">
+                                Checked-In
+                            </span>
+                        </td>
+
+                        <td>
+                            <a th:href="@{/reception/patient-details/{id}(id=${appointment.id})}"
+                               class="ui-btn ui-btn-outline">
+                                View
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(appointments)}">
+                        <td colspan="8" class="u-ta-center">
+                            No checked-in patients found.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="pagination-container" th:if="${appointmentPage != null and appointmentPage.totalPages > 1}">
+            <a class="pagination-link" th:if="${!appointmentPage.first and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/reception/checkedin-patients(page=${appointmentPage.number - 1})}">Previous</a>
+            <a class="pagination-link" th:if="${!appointmentPage.first and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/reception/checkedin-patients(page=${appointmentPage.number - 1},keyword=${keyword})}">Previous</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.first}">Previous</span>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword == null or #strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/reception/checkedin-patients(page=${p})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword != null and !#strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/reception/checkedin-patients(page=${p},keyword=${keyword})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:if="${!appointmentPage.last and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/reception/checkedin-patients(page=${appointmentPage.number + 1})}">Next</a>
+            <a class="pagination-link" th:if="${!appointmentPage.last and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/reception/checkedin-patients(page=${appointmentPage.number + 1},keyword=${keyword})}">Next</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.last}">Next</span>
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const msg = document.getElementById("successMessage");
+
+    if (msg) {
+        setTimeout(() => {
+            msg.classList.add("u-d-none");
+        }, 3000);
+    }
+
+});
+</script>
+
+</body>
+</html>

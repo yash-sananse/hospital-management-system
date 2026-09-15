@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Prescription Details</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="doctor-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="doctor-layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Prescription Details</h1>
+        </div>
+
+        <!-- Patient Details -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Patient Information</h2>
+            </div>
+
+            <div class="patient-info-grid">
+
+                <div>
+                    <strong>Patient Name</strong>
+                    <span th:text="${appointment.patientName}"></span>
+                </div>
+
+                <div>
+                    <strong>Phone</strong>
+                    <span th:text="${appointment.phoneNumber}"></span>
+                </div>
+
+                <div>
+                    <strong>Appointment Date</strong>
+                    <span th:text="${appointment.appointmentDate}"></span>
+                </div>
+
+                <div>
+                    <strong>Reason</strong>
+                    <span th:text="${appointment.reason}"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <!-- Latest Prescription -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Latest Prescription</h2>
+
+                <a th:href="@{/doctor/prescription/print/{id}(id=${latestPrescription.id})}"
+                   class="consult-btn">
+                    Print Prescription
+                </a>
+            </div>
+
+            <p>
+                <strong>Date :</strong>
+
+                <span th:text="${latestPrescription.createdAt}">
+                </span>
+            </p>
+
+            <br>
+
+            <p>
+                <strong>Diagnosis :</strong>
+
+                <span th:text="${latestPrescription.diagnosis ?: 'N/A'}">
+                </span>
+            </p>
+
+            <br>
+
+            <table class="medical-table">
+
+                <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Duration</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="medicine : ${latestPrescription.medicines}">
+
+                    <td th:text="${medicine.medicineName}"></td>
+
+                    <td th:text="${medicine.dosage}"></td>
+
+                    <td th:text="${medicine.frequency}"></td>
+
+                    <td th:text="${medicine.duration}"></td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <br>
+
+            <p>
+                <strong>Advice :</strong>
+
+                <span th:text="${latestPrescription.advice ?: 'N/A'}">
+                </span>
+            </p>
+
+        </div>
+
+        <br>
+
+        <!-- History -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+
+                <h2 class="board-title">
+                    Prescription History
+                </h2>
+
+                <button class="submit-btn"
+                        onclick="toggleHistory()">
+                    Show History
+                </button>
+
+            </div>
+
+            <div id="historySection" class="u-d-none">
+
+                <div th:each="prescription : ${history}"
+                     class="u-mb-25px u-p-20px u-bl-4px-solid-b91c1c u-bg-fafafa u-br-8px">
+
+                    <h3
+                        th:text="${prescription.createdAt}" class="u-mb-15px">
+                    </h3>
+
+                    <table class="medical-table">
+
+                        <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Dosage</th>
+                            <th>Frequency</th>
+                            <th>Duration</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="medicine : ${prescription.medicines}">
+
+                            <td th:text="${medicine.medicineName}"></td>
+
+                            <td th:text="${medicine.dosage}"></td>
+
+                            <td th:text="${medicine.frequency}"></td>
+
+                            <td th:text="${medicine.duration}"></td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <br>
+
+                    <p>
+                        <strong>Advice:</strong>
+
+                        <span th:text="${prescription.advice ?: 'N/A'}">
+                        </span>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+function toggleHistory() {
+
+    let section =
+        document.getElementById("historySection");
+
+    if(section.classList.contains("u-d-none")) {
+
+        section.classList.remove("u-d-none");
+
+    } else {
+
+        section.classList.add("u-d-none");
+    }
+}
+
+</script>
+
+</body>
+</html>

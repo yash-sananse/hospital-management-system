@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Book Appointment</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="Patient-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+    <div class="workspace">
+
+        <div class="page-title-section">
+            <h1>Book Appointment</h1>
+        </div>
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Appointment Details</h2>
+            </div>
+
+            <form th:action="@{/user/book-appointment}" method="post">
+
+                <div class="form-max-container">
+
+                    <div class="input-block">
+                        <label>Select Department</label>
+
+                        <select name="department" class="field-element" required>
+                            <option value="">Select Department</option>
+                            <option>Cardiology</option>
+                            <option>Orthopedic</option>
+                            <option>Neurology</option>
+                            <option>Dermatology</option>
+                            <option>Pediatrics</option>
+                            <option>General Physician</option>
+                        </select>
+                    </div>
+
+                    <div class="input-block">
+                        <label>Select Doctor</label>
+
+                        <select name="doctorId" class="field-element" required>
+                            <option value="">Select Doctor</option>
+
+                            <!-- Later -->
+                            <!--
+                            <option
+                                th:each="doctor : ${doctors}"
+                                th:value="${doctor.id}"
+                                th:text="${doctor.fullName}">
+                            </option>
+                            -->
+
+                        </select>
+                    </div>
+
+                    <div class="input-block">
+                        <label>Appointment Date</label>
+
+                        <input
+                                type="date"
+                                name="appointmentDate"
+                                class="field-element"
+                                required>
+                    </div>
+
+                    <div class="input-block">
+                        <label>Appointment Time</label>
+
+                        <input
+                                type="time"
+                                name="appointmentTime"
+                                class="field-element"
+                                required>
+                    </div>
+
+                    <div class="input-block">
+                        <label>Reason for Visit</label>
+
+                        <textarea
+                                name="reason"
+                                rows="5"
+                                class="field-element"
+                                placeholder="Describe your problem..."
+                                required></textarea>
+                    </div>
+
+                    <button class="submit-btn" type="submit">
+                        Book Appointment
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

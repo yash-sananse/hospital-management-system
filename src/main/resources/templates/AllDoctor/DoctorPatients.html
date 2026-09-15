@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Patients</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="doctor-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="doctor-layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Patients</h1>
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="mini-stats-grid u-mb-24px">
+
+            <div class="stat-counter-box">
+                <div class="stat-icon">👨‍⚕️</div>
+                <div class="stat-label">Today's Visits</div>
+                <div class="stat-value"
+                     th:text="${todaysVisits}">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-counter-box">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Consulted Patients</div>
+                <div class="stat-value"
+                     th:text="${consultedCount}">
+                    0
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="content-board search-board">
+
+    <form th:action="@{/doctor/patients/search}"
+          method="get"
+          class="patient-search-form">
+
+        <input type="text"
+               name="keyword"
+               placeholder="🔍 Search patient by name or phone..."
+               class="search-input">
+
+        <button type="submit"
+                class="search-btn">
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+        <!-- Patient Table -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Today's Patients</h2>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table class="medical-table">
+
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Phone</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:if="${#lists.isEmpty(patients)}">
+                        <td colspan="7" class="u-ta-center">
+                            No patients found.
+                        </td>
+                    </tr>
+
+                    <tr th:each="patient,stat : ${patients}">
+
+                        <td th:text="${stat.count}"></td>
+
+                        <td th:text="${patient.patientName}"></td>
+
+                        <td th:text="${patient.phoneNumber}"></td>
+
+                        <td th:text="${patient.appointmentTime}"></td>
+
+                        <td th:text="${patient.reason}"></td>
+
+                        <td>
+                            <span class="role-badge"
+                                  th:text="${patient.status}">
+                            </span>
+                        </td>
+
+                        <td>
+
+						<a th:if="${patient.status.name() == 'CHECKED_IN'}"
+						   th:href="@{/doctor/prescription/{id}(id=${patient.id})}"
+						   class="consult-btn">
+						    Start Consultation
+						</a>
+						                            
+						 <span th:if="${patient.status.name() == 'CONSULTED'}">
+                                Consulted
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

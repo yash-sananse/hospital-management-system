@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Prescription</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="doctor-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="doctor-layout :: sidebar"></div>
+
+    <main class="workspace">
+
+        <div class="page-title-section">
+            <h1>Patient Consultation & Prescription</h1>
+        </div>
+
+        <!-- Patient Information -->
+
+        <div class="content-board u-mb-24px">
+
+            <div class="board-header">
+                <h2 class="board-title">Patient Details</h2>
+            </div>
+
+            <div class="patient-info-grid">
+
+                <div>
+                    <strong>Patient Name:</strong>
+<span th:text="${appointment != null ? appointment.patientName : 'No Appointment'}"></span>                </div>
+
+                <div>
+                    <strong>Phone:</strong>
+                    <span th:text="${appointment.phoneNumber}"></span>
+                </div>
+
+                <div>
+                    <strong>Appointment Date:</strong>
+                    <span th:text="${appointment.appointmentDate}"></span>
+                </div>
+
+                <div>
+                    <strong>Appointment Time:</strong>
+                    <span th:text="${appointment.appointmentTime}"></span>
+                </div>
+
+                <div>
+                    <strong>Reason:</strong>
+                    <span th:text="${appointment.reason}"></span>
+                </div>
+
+                <div>
+                    <strong>Status:</strong>
+                    <span class="role-badge"
+                          th:text="${appointment.status}">
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Prescription Form -->
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Prescription</h2>
+            </div>
+
+            <form th:action="@{/doctor/prescription/save}"
+                  method="post">
+
+                <input type="hidden"
+                       name="appointmentId"
+                       th:value="${appointment.id}">
+
+                <!-- Diagnosis -->
+
+                <div class="input-block">
+                    <label>Diagnosis</label>
+
+                    <input type="text"
+                           name="diagnosis"
+                           class="field-element"
+                           placeholder="Enter diagnosis">
+                </div>
+
+                <!-- Clinical Notes -->
+
+                <div class="input-block">
+                    <label>Clinical Notes</label>
+
+                    <textarea name="clinicalNotes"
+                              class="field-element"
+                              rows="4"
+                              placeholder="Doctor observations..."></textarea>
+                </div>
+
+                <!-- Medicines -->
+
+                <!-- Medicines -->
+
+<div class="input-block">
+
+    <div class="u-d-flex u-jc-space-between u-ai-center u-mb-12px">
+        <label class="u-m-0">Medicines</label>
+
+        <button type="button"
+                class="submit-btn"
+                onclick="addMedicineRow()">
+            + Add Medicine
+        </button>
+    </div>
+
+    <table class="medical-table">
+
+        <thead>
+        <tr>
+            <th>Medicine</th>
+            <th>Dosage</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="medicineTableBody">
+
+        <tr>
+
+            <td>
+                <input type="text"
+                       name="medicineNames"
+                       class="field-element"
+                       placeholder="Paracetamol">
+            </td>
+
+            <td>
+                <input type="text"
+                       name="dosages"
+                       class="field-element"
+                       placeholder="650 mg">
+            </td>
+
+            <td>
+                <input type="text"
+                       name="frequencies"
+                       class="field-element"
+                       placeholder="Twice Daily">
+            </td>
+
+            <td>
+                <input type="text"
+                       name="durations"
+                       class="field-element"
+                       placeholder="5 Days">
+            </td>
+
+            <td>
+                <button type="button"
+                        class="delete-btn"
+                        onclick="removeMedicine(this)">
+                    Remove
+                </button>
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+                <!-- Advice -->
+
+                <div class="input-block">
+
+                    <label>Advice</label>
+
+                    <textarea name="advice"
+                              class="field-element"
+                              rows="4"
+                              placeholder="Patient advice..."></textarea>
+
+                </div>
+
+                <!-- Follow Up -->
+
+                <div class="input-block">
+
+                    <label>Follow-Up Date</label>
+
+                    <input type="date"
+                           name="followUpDate"
+                           class="field-element">
+
+                </div>
+
+                <button type="submit"
+                        class="submit-btn">
+                    Save Prescription & Complete Consultation
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+<script>
+
+function addMedicineRow() {
+
+    const tableBody =
+        document.getElementById("medicineTableBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>
+            <input type="text"
+                   name="medicineNames"
+                   class="field-element"
+                   placeholder="Medicine Name">
+        </td>
+
+        <td>
+            <input type="text"
+                   name="dosages"
+                   class="field-element"
+                   placeholder="Dosage">
+        </td>
+
+        <td>
+            <input type="text"
+                   name="frequencies"
+                   class="field-element"
+                   placeholder="Frequency">
+        </td>
+
+        <td>
+            <input type="text"
+                   name="durations"
+                   class="field-element"
+                   placeholder="Duration">
+        </td>
+
+        <td>
+            <button type="button"
+                    class="delete-btn"
+                    onclick="removeMedicine(this)">
+                Remove
+            </button>
+        </td>
+    `;
+
+    tableBody.appendChild(row);
+}
+
+function removeMedicine(button) {
+
+    const rows =
+        document.querySelectorAll("#medicineTableBody tr");
+
+    if(rows.length > 1) {
+        button.closest("tr").remove();
+    }
+}
+
+</script>
+
+</body>
+</html>

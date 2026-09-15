@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Reception Appointments</title>
+
+	<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+
+<!-- Header -->
+<div th:replace="layout-reception :: header"></div>
+
+
+<div class="main-wrapper">
+
+	<!-- Sidebar -->
+	<div th:replace="layout-reception :: sidebar"></div>
+
+
+	<!-- Main Content -->
+	<main class="workspace">
+
+
+		<!-- Page Heading -->
+		<section class="page-title-section">
+
+			<h1>Appointments All</h1>
+
+		</section>
+
+
+		<!-- Search Bar -->
+
+		<div class="u-d-flex u-jc-flex-end u-mb-20px">
+
+			<form th:action="@{/reception/appointments}"
+			      method="get"
+			      class="u-d-flex u-ai-center u-gap-10px">
+
+				<input type="text"
+				       name="keyword"
+				       th:value="${keyword}"
+				       placeholder="Search patient name or phone..."
+				       class="field-element u-w-320px u-p-10px-15px u-border-1px-solid-ddd u-br-8px u-fs-14px"
+				      >
+
+
+				<button type="submit"
+				        class="ui-btn ui-btn-red">
+
+					🔍 Search
+
+				</button>
+
+
+				<a th:href="@{/reception/appointments}"
+				   class="ui-btn ui-btn-outline">
+
+					Clear
+
+				</a>
+
+			</form>
+
+		</div>
+
+
+		<!-- Main Board -->
+
+		<section class="content-board">
+
+
+			<!-- Board Header -->
+
+			<div class="board-header">
+
+				<div class="board-title">
+
+					Appointment Management
+
+				</div>
+
+
+				<div>
+
+					<a href="/reception/today-queue"
+					   class="ui-btn ui-btn-outline">
+
+						Today's Queue
+
+					</a>
+
+				</div>
+
+			</div>
+
+
+			<!-- Table -->
+
+			<div class="table-wrapper">
+
+				<table class="medical-table">
+
+
+					<!-- TABLE HEADER -->
+
+					<thead>
+
+					<tr>
+
+						<th>ID</th>
+
+						<th>Patient</th>
+
+						<th>Phone</th>
+
+						<th>Doctor</th>
+
+						<th>Date</th>
+
+						<th>Time</th>
+
+						<th>Status</th>
+
+						<th>Actions</th>
+
+						<th>Cancel</th>
+
+						<th>Delete</th>
+
+						<th>Bill</th>
+
+						<th>View Bill</th>
+
+					</tr>
+
+					</thead>
+
+
+					<!-- TABLE BODY -->
+
+					<tbody>
+
+
+					<!-- No Appointments -->
+
+					<tr th:if="${#lists.isEmpty(appointments)}">
+
+						<td colspan="12"
+						    class="u-ta-center">
+
+							No Appointments Found
+
+						</td>
+
+					</tr>
+
+
+					<!-- Appointments -->
+
+					<tr th:each="appt : ${appointments}">
+
+
+						<!-- ID -->
+
+						<td th:text="${appt.id}"></td>
+
+
+						<!-- Patient -->
+
+						<td th:text="${appt.patientName}"></td>
+
+
+						<!-- Phone -->
+
+						<td th:text="${appt.phoneNumber}"></td>
+
+
+						<!-- Doctor -->
+
+						<td th:text="${appt.doctor.fullName}"></td>
+
+
+						<!-- Date -->
+
+						<td th:text="${appt.appointmentDate}"></td>
+
+
+						<!-- Time -->
+
+						<td th:text="${appt.appointmentTime}"></td>
+
+
+						<!-- Status -->
+
+						<td>
+
+                                <span class="role-badge"
+                                      th:text="${appt.status}">
+
+                                </span>
+
+						</td>
+
+
+						<!-- ACTIONS -->
+
+						<td>
+
+
+							<!-- BOOKED -->
+
+							<a
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).BOOKED}"
+									th:href="@{/reception/appointment/checkin/{id}(id=${appt.id})}"
+									class="ui-btn ui-btn-red">
+
+								Check-In
+
+							</a>
+
+
+							<!-- CHECKED IN -->
+
+							<span
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CHECKED_IN}">
+
+                                    Waiting For Doctor
+
+                                </span>
+
+
+							<!-- CONSULTED -->
+
+							<div
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).CONSULTED}">
+
+
+								<a
+										th:href="@{/reception/appointment/admit/{id}(id=${appt.id})}"
+										class="ui-btn ui-btn-red">
+
+									Admit
+
+								</a>
+
+
+								<a
+										th:href="@{/reception/appointment/complete/{id}(id=${appt.id})}"
+										class="ui-btn ui-btn-outline">
+
+									Complete
+
+								</a>
+
+							</div>
+
+
+							<!-- ADMITTED -->
+
+							<a
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).ADMITTED}"
+									th:href="@{/reception/appointment/discharge/{id}(id=${appt.id})}"
+									class="ui-btn ui-btn-red">
+
+								Discharge
+
+							</a>
+
+
+							<!-- COMPLETED -->
+
+							<span
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).COMPLETED}">
+
+                                    Visit Completed
+
+                                </span>
+							<span
+									th:if="${appt.status == T(com.example.demo.enums.AppointmentStatus).DISCHARGED}">
+
+                                    Visit Completed
+
+                                </span>
+
+
+
+						</td>
+
+
+						<!-- CANCEL -->
+
+						<td>
+
+							<a
+									th:href="@{/reception/reception/appointment/cancel/{id}(id=${appt.id})}"
+									class="ui-btn ui-btn-outline"
+									onclick="return confirm('Cancel Appointment?')">
+
+								Cancel
+
+							</a>
+
+						</td>
+
+
+						<!-- DELETE -->
+
+						<td>
+
+							<a
+									th:href="@{/reception/appointment/delete/{id}(id=${appt.id})}"
+									class="ui-btn ui-btn-red"
+									onclick="return confirm('Delete this appointment permanently?')">
+
+								Delete
+
+							</a>
+
+						</td>
+
+
+						<!-- GENERATE BILL -->
+
+						<td>
+
+							<a
+									th:href="@{/reception/generate-bill(appointmentId=${appt.id})}"
+									class="ui-btn ui-btn-red">
+
+								Generate Bill
+
+							</a>
+
+						</td>
+
+
+						<!-- VIEW BILL -->
+
+						<td>
+
+							<a
+									th:href="@{/reception/bill/{id}(id=${appt.id})}"
+									class="ui-btn ui-btn-outline">
+
+								View Bill
+
+							</a>
+
+						</td>
+
+
+					</tr>
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		        <div class="pagination-container" th:if="${appointmentPage != null and appointmentPage.totalPages > 1}">
+            <a class="pagination-link" th:if="${!appointmentPage.first and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/reception/appointments(page=${appointmentPage.number - 1})}">Previous</a>
+            <a class="pagination-link" th:if="${!appointmentPage.first and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/reception/appointments(page=${appointmentPage.number - 1},keyword=${keyword})}">Previous</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.first}">Previous</span>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword == null or #strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/reception/appointments(page=${p})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:each="p : ${#numbers.sequence(0, appointmentPage.totalPages - 1)}" th:if="${keyword != null and !#strings.isEmpty(keyword)}" th:classappend="${p == appointmentPage.number} ? ' active' : ''" th:href="@{/reception/appointments(page=${p},keyword=${keyword})}" th:text="${p + 1}">1</a>
+            <a class="pagination-link" th:if="${!appointmentPage.last and (keyword == null or #strings.isEmpty(keyword))}" th:href="@{/reception/appointments(page=${appointmentPage.number + 1})}">Next</a>
+            <a class="pagination-link" th:if="${!appointmentPage.last and keyword != null and !#strings.isEmpty(keyword)}" th:href="@{/reception/appointments(page=${appointmentPage.number + 1},keyword=${keyword})}">Next</a>
+            <span class="pagination-link disabled" th:if="${appointmentPage.last}">Next</span>
+        </div>
+
+</section>
+
+	</main>
+
+</div>
+
+
+</body>
+
+</html>

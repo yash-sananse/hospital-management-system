@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Hospital Management System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <header class="top-header">
+    <div class="header-brand">
+      <div class="brand-logo">HM</div>
+      <div>Hospital Management System</div>
+    </div>
+  </header>
+
+  <div class="main-wrapper">
+    <main class="workspace u-d-flex u-jc-center u-ai-center">
+      <section class="content-board form-max-container u-mw-420px">
+        <div class="board-header">
+          <div class="board-title">Create Account</div>
+        </div>
+
+        <form th:action="@{/register}" method="post">
+          <div class="input-block">
+            <label>Full Name</label>
+            <input class="field-element" type="text" name="name" placeholder="Enter Full Name" required>
+          </div>
+
+          <div class="input-block">
+            <label>Email Address</label>
+            <input class="field-element" type="email" name="email" placeholder="Enter Email" required>
+          </div>
+
+          <div class="input-block">
+            <label>Phone Number</label>
+            <input class="field-element" type="tel" name="phoneNumber" placeholder="Enter Phone Number" required>
+          </div>
+
+          <div class="input-block">
+            <label>Password</label>
+            <input class="field-element" type="password" name="password" placeholder="Create Password" required>
+            <span class="error-text" th:if="${error}" th:text="${error}"></span>
+          </div>
+
+          <button type="submit" class="ui-btn ui-btn-red u-w-100pct u-mt-12px">Register</button>
+        </form>
+
+        <div class="u-mt-16px u-ta-center">
+          <p class="signup-text">Already have an account? <a href="/login" class="ui-btn ui-btn-outline">Log In</a></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

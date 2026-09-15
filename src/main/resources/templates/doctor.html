@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Doctors - Hospital Management System</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div th:replace="layout :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="layout :: sidebar"></div>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+
+            <!-- Page Title -->
+            <section class="page-title-section">
+                <h1 th:text="${pageTitle} ?: 'Doctors Management'">
+                    Doctors Management
+                </h1>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="top-dashboard-grid">
+			
+						<!-- Admin greeting box -->
+			<div class="stat-counter-box admin-greeting">
+			    <div class="stat-icon">👋</div>
+			
+			    <div class="stat-label">
+			        Hello,
+			    </div>
+			
+			    <div class="stat-value" th:text="${adminName} ?: 'Admin'">
+			        Admin
+			    </div>
+			</div>	
+							
+                <div class="stat-counter-box">
+                    <div class="stat-icon">👨‍⚕️</div>
+
+                    <div class="stat-label">
+                        Total Doctors
+                    </div>
+                    
+
+                    <div class="stat-value"
+                         th:text="${totalDoctorCount}">
+                        0
+                    </div>
+                </div>
+
+                <a th:href="@{/admin/today-appointments}"
+					   class="u-td-none u-color-inherit">
+					
+					    <div class="stat-counter-box">
+					
+					        <div class="stat-icon">
+					            🩺
+					        </div>
+					
+					        <div class="stat-label">
+					            Today's All Appointments
+					        </div>
+					
+					        <div class="stat-value"
+					             th:text="${todayAppointmentsCount} ?: 0">
+					            0
+					        </div>
+					
+					    </div>
+					
+					</a>
+
+				    <a th:href="@{/admin/upcoming-appointments}"
+				   class="u-td-none u-color-inherit">
+				
+				    <div class="stat-counter-box">
+				
+				        <div class="stat-icon">📅</div>
+				
+				        <div class="stat-label">
+				            Upcoming Appointments
+				        </div>
+				
+				        <div class="stat-value"
+				             th:text="${upcomingDaysCount} ?: 0">
+				            0
+				        </div>
+				
+				    </div>
+
+</a>
+
+            </section>
+
+            <!-- All Doctors Table -->
+            <section class="content-board">
+
+                <div class="board-header">
+
+                    <div class="board-title">
+                        All Doctors
+                    </div>
+
+                    <a th:href="@{/admin/doctor/add-doctor}"
+                       class="ui-btn">
+                        Add Doctor
+                    </a>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="medical-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Specialty</th>
+                                <th>Clinic</th>
+                                <th>Phone</th>
+                                <th>Consultation Fee</th>
+                                <th>All Appointments</th>
+								<th>Today's</th>
+								<th>Upcoming</th>
+                                <th>Add Appointment</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <!-- Empty Message -->
+                            <tr th:if="${#lists.isEmpty(doctors)}">
+
+                                <td colspan="6"
+                                    class="u-ta-center">
+
+                                    No Doctors Found
+
+                                </td>
+
+                            </tr>
+
+                            <!-- Doctors List -->
+                            <tr th:each="doc : ${doctors}">
+
+                                <td th:text="${doc.id}">
+                                    1
+                                </td>
+
+                                <td th:text="${doc.fullName}">
+                                    Dr Amit
+                                </td>
+
+                                <td th:text="${doc.specialty}">
+                                    Cardiologist
+                                </td>
+
+                                <td th:text="${doc.clinic}">
+                                    Main Hospital
+                                </td>
+
+                                <td th:text="${doc.phoneNumber}">
+                                    9876543210
+                                </td>
+                                <td>
+                                    ₹ <span th:text="${doc.consultationFee}"></span>
+                                </td>
+																<!-- All Appointments -->
+								<td class="u-ta-center">
+								
+								    <a th:href="@{/admin/doctor/{id}(id=${doc.id})}"
+								       class="ui-btn-table-edit">
+								
+								        View
+								
+								    </a>
+								
+								</td>
+								
+								<!-- Today's -->
+								<td>
+								
+								    <a th:href="@{/admin/doctor/{id}/today-appointments(id=${doc.id})}"
+								       class="ui-btn-table-edit">
+								
+								        Today's
+								
+								    </a>
+								
+								</td>
+								
+								<!-- Upcoming -->
+								<td>
+								
+								    <a th:href="@{/admin/doctor/{id}/upcoming-appointments(id=${doc.id})}"
+								       class="ui-btn-table-edit">
+								
+								        Upcoming
+								
+								    </a>
+								
+								</td>
+                                
+                                <td>
+                                  <a th:href="@{/admin/doctor/{id}/add-appointment(id=${doc.id})}"
+									       class="ui-btn-table-edit u-ml-8px"
+									      >
+									
+									        Add Appointment
+									
+									    </a>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+                <div class="pagination-container" th:if="${doctorPage != null and doctorPage.totalPages > 1}">
+                    <a class="pagination-link" th:classappend="${doctorPage.first} ? ' disabled' : ''"
+                       th:href="@{/admin/doctor(page=${doctorPage.number - 1})}">Previous</a>
+                    <a class="pagination-link" th:each="p : ${#numbers.sequence(0, doctorPage.totalPages - 1)}"
+                       th:classappend="${p == doctorPage.number} ? ' active' : ''"
+                       th:href="@{/admin/doctor(page=${p})}" th:text="${p + 1}">1</a>
+                    <a class="pagination-link" th:classappend="${doctorPage.last} ? ' disabled' : ''"
+                       th:href="@{/admin/doctor(page=${doctorPage.number + 1})}">Next</a>
+                </div>
+
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

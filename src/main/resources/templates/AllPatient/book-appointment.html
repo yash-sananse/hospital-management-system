@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Book Appointment</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="Patient-layout :: header"></div>
+
+<div class="main-wrapper">
+
+    <div th:replace="Patient-layout :: sidebar"></div>
+
+    <div class="workspace">
+
+        <div class="page-title-section">
+            <h1>Book Appointment</h1>
+        </div>
+
+        <div class="content-board">
+
+            <div class="board-header">
+                <h2 class="board-title">Appointment Details</h2>
+            </div>
+
+            <form th:action="@{/user/book-appointment}"
+						      method="post">
+						
+						    <!-- Department -->
+						    <div class="input-block">
+						
+						        <label>Department</label>
+						
+						        <select id="department"
+						                class="field-element"
+						                required>
+						
+						            <option value="">
+						                Select Department
+						            </option>
+						
+						            <option
+						                    th:each="department : ${departments}"
+						                    th:value="${department}"
+						                    th:text="${department}">
+						            </option>
+						
+						        </select>
+						
+						    </div>
+						
+						
+						    <!-- Doctor -->
+						    <div class="input-block">
+						
+						        <label>Doctor</label>
+						
+						        <select id="doctor"
+						                name="doctorId"
+						                class="field-element"
+						                required>
+						
+						            <option value="">
+						                Select Doctor
+						            </option>
+						
+						        </select>
+						
+						    </div>
+						
+						
+						    <!-- Appointment Date -->
+						    <div class="input-block">
+						
+						        <label>Appointment Date</label>
+						
+						        <input
+						                type="date"
+						                name="appointmentDate"
+						                class="field-element"
+						                required>
+						
+						    </div>
+						
+						
+						    <!-- Appointment Time -->
+						    <div class="input-block">
+						
+						        <label>Appointment Time</label>
+						
+						        <input
+						                type="time"
+						                name="appointmentTime"
+						                class="field-element"
+						                required>
+						
+						    </div>
+						
+						
+						    <!-- Reason -->
+						    <div class="input-block">
+						
+						        <label>Reason</label>
+						
+						        <textarea
+						                rows="4"
+						                name="reason"
+						                class="field-element"
+						                required>
+						        </textarea>
+						
+						    </div>
+						
+						
+						    <button
+						            class="ui-btn ui-btn-red"
+						            type="submit">
+						
+						        Book Appointment
+						
+						    </button>
+						
+						</form>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+document.getElementById("department")
+.addEventListener("change", function () {
+
+    let department = this.value;
+
+    let doctorDropdown =
+            document.getElementById("doctor");
+
+    doctorDropdown.innerHTML =
+            "<option value=''>Loading...</option>";
+
+    fetch("/user/doctors?department=" + department)
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            doctorDropdown.innerHTML =
+                    "<option value=''>Select Doctor</option>";
+
+            data.forEach(function(doctor){
+
+                doctorDropdown.innerHTML +=
+
+                    `<option value="${doctor.id}">
+                        ${doctor.fullName}
+                    </option>`;
+
+            });
+
+        });
+
+});
+
+</script>
+</body>
+</html>

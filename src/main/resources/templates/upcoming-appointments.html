@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upcoming Appointments</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    
+</head>
+
+<body class="page-upcoming-appointments">
+
+    <!-- Header -->
+    <div th:replace="layout :: header"></div>
+
+    <div class="main-wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="layout :: sidebar"></div>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+
+            <!-- Combined Header Row: Title Left, Action Buttons Right -->
+            <div class="dashboard-header-container">
+                
+                <!-- Page Title Left -->
+                <section class="page-title-section">
+                    <h1>Upcoming Appointments</h1>
+                </section>
+
+                <!-- Navigation Quick Filters Right -->
+                <section class="top-dashboard-grid">
+
+                    <!-- Total Upcoming Appointments (Static Info Card Style) -->
+                    <div class="stat-counter-btn u-cursor-default">
+                        <span class="stat-icon">📅</span>
+                        <span class="stat-text-group">
+                            <span class="stat-label">Upcoming Total</span>
+                            <span class="stat-value">Count: <span class="count-badge" th:text="${#lists.size(appointments)}">0</span></span>
+                        </span>
+                    </div>
+
+                    <!-- Link to Today's Appointments Button -->
+                    <a th:href="@{/admin/today-appointments}" class="u-td-none u-color-inherit">
+                        <button type="button" class="stat-counter-btn">
+                            <span class="stat-icon">🩺</span>
+                            <span class="stat-text-group">
+                                <span class="stat-label">Today's</span>
+                                <span class="stat-value">Appointments</span>
+                            </span>
+                        </button>
+                    </a>
+
+                    <!-- Link to All Appointments Button -->
+                    <a th:href="@{/admin/appointments}" class="u-td-none u-color-inherit">
+                        <button type="button" class="stat-counter-btn">
+                            <span class="stat-icon">📋</span>
+                            <span class="stat-text-group">
+                                <span class="stat-label">All Rows</span>
+                                <span class="stat-value">Appointments</span>
+                            </span>
+                        </button>
+                    </a>
+
+                </section>
+            </div>
+
+            <!-- Appointments Table -->
+            <section class="content-board">
+
+                <div class="board-header">
+                    <div class="board-title">Upcoming Appointment List</div>
+                    <a th:href="@{/admin/doctor}" class="ui-btn">Back To Dashboard</a>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="medical-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Reason</th>
+                                <th>Appointment Date</th>
+                                <th>Appointment Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Empty Message -->
+                            <tr th:if="${#lists.isEmpty(appointments)}">
+                                <td colspan="5" class="u-ta-center u-p-20px">
+                                    No Upcoming Appointments Found
+                                </td>
+                            </tr>
+                            <!-- Appointment Rows -->
+                            <tr th:each="appt : ${appointments}">
+                                <td th:text="${appt.id}">1</td>
+                                <td th:text="${appt.patientName}">Rahul Sharma</td>
+                                <td th:text="${appt.reason}">Fever Checkup</td>
+                                <td th:text="${appt.appointmentDate}">2026-05-23</td>
+                                <td th:text="${appt.appointmentTime}">05:30 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
